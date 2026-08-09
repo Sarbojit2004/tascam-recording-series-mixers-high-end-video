@@ -23,9 +23,13 @@ export const BrandCard: React.FC<{
   box: {l: number; t: number; w: number; h: number};
   accent: string;
   delay?: number;
-}> = ({brand, box, accent, delay = 0}) => {
+  /** Skips the entrance spring — required for still-frame compositions
+   *  (thumbnails render a single frame at t=0, before any spring settles,
+   *  so an animated card would render invisible). */
+  animate?: boolean;
+}> = ({brand, box, accent, delay = 0, animate = true}) => {
   const f = useCurrentFrame();
-  const g = pop(f, delay, 16);
+  const g = animate ? pop(f, delay, 16) : 1;
 
   return (
     <div

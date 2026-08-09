@@ -13,6 +13,10 @@ loadFonts();
 // Landscape thumbnail, 1920x1080, same light ground and type system as the
 // long-form video. Both wordmarks are present (Section 10's requirement) —
 // as styled text, per the same no-fabricated-logo reasoning as BrandCard.
+//
+// BrandCard normally springs in on entrance, which is correct for the video
+// but renders as invisible on a still (a single frame at t=0, before the
+// spring has moved at all) — both calls here pass animate={false}.
 
 const ROWS = [
   {k: 'm12' as const, img: 'm12-06', c: C.m12, tag: 'DESKTOP HYBRID'},
@@ -24,7 +28,7 @@ const ROWS = [
 
 export const LongFormThumbnail: React.FC = () => {
   const colW = (LF_CANVAS.w - EDGE_PAD * 2 - 24 * 4) / 5;
-  const rowsTop = 470;
+  const rowsTop = 452;
 
   return (
     <AbsoluteFill style={{backgroundColor: C.paper}}>
@@ -38,19 +42,40 @@ export const LongFormThumbnail: React.FC = () => {
         }}
       />
 
-      <div style={{position: 'absolute', left: EDGE_PAD, top: 60, width: LF_CANVAS.w - EDGE_PAD * 2}}>
+      <div style={{position: 'absolute', left: EDGE_PAD, top: 56, width: 1180}}>
         <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
           <div style={{width: 9, height: 9, borderRadius: 99, background: C.gold}} />
           <span style={{fontFamily: F.ui, fontWeight: 800, fontSize: 22, letterSpacing: 3.4, color: C.inkSoft}}>
             {BRAND.designation}
           </span>
         </div>
-        <div style={{fontFamily: F.display, fontWeight: 800, fontSize: 108, lineHeight: 0.88, letterSpacing: -1.6, color: C.ink, marginTop: 14}}>
-          TASCAM MODEL SERIES &amp; STUDIO BRIDGE
+        <div style={{fontFamily: F.display, fontWeight: 800, fontSize: 102, lineHeight: 0.9, letterSpacing: -1.6, color: C.ink, marginTop: 16}}>
+          TASCAM MODEL SERIES
+          <br />
+          <span style={{color: C.m2400}}>&amp; STUDIO BRIDGE</span>
         </div>
-        <div style={{marginTop: 18}}>
-          <Rule w={LF_CANVAS.w - EDGE_PAD * 2} accent={C.gold} thickness={3} />
+        <div
+          style={{
+            fontFamily: F.ui,
+            fontWeight: 500,
+            fontSize: 26,
+            lineHeight: 1.4,
+            color: C.inkSoft,
+            marginTop: 22,
+            maxWidth: 1000,
+          }}
+        >
+          Four hybrid analog mixers, ascending in scale, and one controller-less
+          24-track recording engine — genuine tactile control, standalone SD
+          multitrack recording, and seamless DAW integration.
         </div>
+      </div>
+
+      <BrandCard brand="tascam" box={{l: LF_CANVAS.w - EDGE_PAD - 300 - 18 - 220, t: 64, w: 220, h: 84}} accent={C.gold} animate={false} />
+      <BrandCard brand="shivansh" box={{l: LF_CANVAS.w - EDGE_PAD - 300, t: 64, w: 300, h: 84}} accent={C.gold} animate={false} />
+
+      <div style={{position: 'absolute', left: EDGE_PAD, top: rowsTop - 26, width: LF_CANVAS.w - EDGE_PAD * 2}}>
+        <Rule w={LF_CANVAS.w - EDGE_PAD * 2} accent={C.gold} thickness={2} />
       </div>
 
       <div style={{position: 'absolute', left: EDGE_PAD, top: rowsTop, display: 'flex', gap: 24}}>
@@ -93,9 +118,6 @@ export const LongFormThumbnail: React.FC = () => {
         <div style={{fontFamily: F.display, fontWeight: 800, fontSize: 60, letterSpacing: -0.5, color: C.ink}}>{BRAND.cta}</div>
         <div style={{fontFamily: F.display, fontWeight: 800, fontSize: 60, letterSpacing: -0.3, color: C.gold}}>{BRAND.ctaSub}</div>
       </div>
-
-      <BrandCard brand="tascam" box={{l: LF_CANVAS.w - EDGE_PAD - 300 - 18 - 220, t: 40, w: 220, h: 84}} accent={C.gold} />
-      <BrandCard brand="shivansh" box={{l: LF_CANVAS.w - EDGE_PAD - 300, t: 40, w: 300, h: 84}} accent={C.gold} delay={6} />
     </AbsoluteFill>
   );
 };
