@@ -24,9 +24,12 @@ export const ClipCard: React.FC<{
   accent: string;
   label?: string;
   radius?: number;
-}> = ({id, box, accent, label, radius = 22}) => {
+  /** Overrides the default CLIPS[id] trim — used by the long-form video,
+   *  which affords a longer 3-6s segment than the reel's sub-3s inserts. */
+  trim?: {trimBefore: number; dur: number};
+}> = ({id, box, accent, label, radius = 22, trim}) => {
   const f = useCurrentFrame();
-  const {trimBefore, dur} = CLIPS[id];
+  const {trimBefore, dur} = trim ?? CLIPS[id];
   const src = clipSrc(id);
 
   // Sharp band keeps the source's exact 16:5 geometry.

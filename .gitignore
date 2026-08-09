@@ -157,3 +157,7 @@ out/*
 # Regenerate with `npm run assets` — see scripts/prepare_assets.py.
 public/img/
 public/video/
+
+# Safety-net project zip — keep it tracked (it's a deliverable, not a build
+# artifact); everything else in out/ stays ignored except the final renders.
+!out/tascam-project-source.zip

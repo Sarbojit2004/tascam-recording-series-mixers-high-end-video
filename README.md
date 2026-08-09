@@ -232,3 +232,100 @@ scripts/
 byte-identical mirrors of assets already tracked at the repository root —
 duplicating ~90 MB of binaries in git would slow every clone. `npm run assets`
 recreates them deterministically.
+
+---
+
+## The long-form video (298 s / 1920×1080)
+
+A companion piece in this same project: a 5-minute landscape walkthrough of
+the same five products, sharing the reel's palette, type system and
+per-product accent colors, extended for a format with ~2.7 s of average
+runtime per asset instead of the reel's ~0.8 s.
+
+| | |
+|---|---|
+| Canvas | 1920 × 1080, 30 fps |
+| Runtime | **298.000 s — 8,940 frames exactly** |
+| Assets used | **109 / 109**, same manifest discipline as the reel |
+| Render | `out/tascam-model-series-longform.mp4` |
+| Thumbnail | `out/thumbnail-tascam-longform.png` |
+| Voiceover script | [`VO_SCRIPT_LONGFORM_TASCAM.md`](VO_SCRIPT_LONGFORM_TASCAM.md) |
+| Coverage ledger | [`ASSET_COVERAGE_LONGFORM.md`](ASSET_COVERAGE_LONGFORM.md) |
+| Project zip | `out/tascam-project-source.zip` — self-contained; `unzip`, `npm install`, `npm run assets`, `npm run render` / `npm run render:lf` reproduce either video independently |
+
+### What's different from the reel
+
+- **Full frame, no Instagram safe zone.** This is a direct-file landscape
+  delivery, not a feed/story format, so there's no platform-UI overlap risk
+  and no reserved band. The only rule is a 56px margin for *critical text* —
+  background and hero photography may touch the true edge.
+- **No logo files added in the reel; both added here, repeatedly.** This
+  repository has no TASCAM or Shivansh Electronics logo image files (checked
+  again for this video — still true), so both brands appear as styled text
+  wordmark cards (`BrandCard`, `src/components/lf/BrandCard.tsx`) rather than
+  a fabricated graphic mark. Shivansh Electronics recurs continuously (a
+  persistent corner strip plus a dedicated branding beat in every product
+  chapter — worst-case gap ~0.7s, verified by `npm run branding:lf`); TASCAM
+  appears at 6 deliberate moments including mid-video, not just open/close.
+- **Sequential hero + coverage-sweep, not dense montage.** Each product
+  chapter runs hero → clip-motion → a small named-feature `BeatCycle` → a
+  `GallerySweep` clearing the rest of that product's pool in cross-dissolving
+  groups of ~4. The reel's tight per-cut pacing wasn't needed at this
+  runtime; genuine explanatory depth was.
+- **Longer clip trims.** 3–6s segments (vs. the reel's ~2.5s) — still 1x
+  speed, still cut-away-from rather than played through, per the shared
+  trim discipline in `lib/lf-assets.ts` / `LF_CLIPS`.
+- **Ten chapters**, scaled from the creative brief's own 180s ratio to this
+  project's real 298s, plus two chapters the brief didn't need to budget for
+  at reel length: a dedicated Real-World Workflows chapter (matching each
+  product to who actually uses it) and a Range Together chapter (the
+  Model 2400 ↔ Studio Bridge "same engine, different form factor"
+  relationship).
+
+### Structure
+
+| Chapter | Frames | Seconds |
+|---|---:|---:|
+| Cold Open | 600 | 20 |
+| Family Overview (shared DNA + signal-flow diagram) | 540 | 18 |
+| Model 12 | 1080 | 36 |
+| Model 16 | 900 | 30 |
+| Model 24 | 1080 | 36 |
+| Model 2400 (flagship — largest single-product share) | 1740 | 58 |
+| Real-World Workflows | 600 | 20 |
+| Studio Bridge (musical/tonal pivot, built on subtraction) | 1260 | 42 |
+| Range Together | 420 | 14 |
+| Pricing + Outro | 720 | 24 |
+| **Total** | **8940** | **298.000** |
+
+### Audio
+
+Reuses the reel's own validated 35-clip SFX palette (`public/audio/sfx/` is
+shared between both videos — it's generic transition/mechanical sound, not
+reel-specific, so synthesising it twice would be pure waste) plus 4 new SFX
+unique to this video's beat vocabulary (`chapter-swell`, `gallery-tick`,
+`brand-chime`, `chapter-out`), and its own 298.000s music bed and ambient bed
+following the same ten-chapter energy arc. `scripts/gen_audio_longform.py` /
+`npm run audio:lf` generates and validates all of it.
+
+### Commands
+
+```bash
+npm run audio:lf          # synthesise + validate the LF-specific beds and 4 new SFX
+npm run check:lf          # LF asset-coverage audit + TypeScript
+npm run stills:lf         # one still per LF scene
+npm run edgemargin:lf     # pixel-level edge-margin review
+npm run branding:lf       # timestamped Shivansh/TASCAM cadence report
+npm run render:lf         # render -> finalize -> verify, in one command
+npm run thumbnail:lf      # the landscape thumbnail
+npm run package           # rebuild the safety-net project zip
+```
+
+### Why `render:lf` also has three stages
+
+Same reasoning as the reel's `render` (see above): Remotion's muxer writes
+audio longer than the composition and overlaps a chunk of the mix in the
+final second. `LFReel.tsx` applies a `lfTail()` envelope across the last 20
+frames on every audio layer — learned directly from building the reel first
+— so `finalize.py --lf` cuts to exactly 8,940 packets and rebuilds the tail
+as a clean 1.2s fade, landing in genuine silence rather than a clipped decay.

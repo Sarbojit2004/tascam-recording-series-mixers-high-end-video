@@ -8,6 +8,7 @@ clipped, and — the failure this check was added for — that the audio stream
 does not run past the last video frame.
 
     python3 scripts/verify_output.py [path/to/render.mp4]
+    python3 scripts/verify_output.py --lf [path/to/render.mp4]
 """
 import json
 import math
@@ -20,16 +21,24 @@ import wave
 import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEFAULT = os.path.join(ROOT, "out", "tascam-model-series-reel.mp4")
+IS_LF = "--lf" in sys.argv
+_args = [a for a in sys.argv[1:] if a != "--lf"]
 
-EXPECT_FRAMES = 2640
+if IS_LF:
+    DEFAULT = os.path.join(ROOT, "out", "tascam-model-series-longform.mp4")
+    EXPECT_FRAMES = 8940
+    EXPECT_W, EXPECT_H = 1920, 1080
+else:
+    DEFAULT = os.path.join(ROOT, "out", "tascam-model-series-reel.mp4")
+    EXPECT_FRAMES = 2640
+    EXPECT_W, EXPECT_H = 1080, 1920
+
 EXPECT_FPS = 30
-EXPECT_W, EXPECT_H = 1080, 1920
-EXPECT_SECONDS = EXPECT_FRAMES / EXPECT_FPS  # 88.000
+EXPECT_SECONDS = EXPECT_FRAMES / EXPECT_FPS
 # One AAC packet is 1024/48000 s ≈ 21 ms; allow a couple of packets of muxer slack.
 AUDIO_TAIL_TOLERANCE = 0.10
 
-path = sys.argv[1] if len(sys.argv) > 1 else DEFAULT
+path = _args[0] if _args else DEFAULT
 fail = []
 
 

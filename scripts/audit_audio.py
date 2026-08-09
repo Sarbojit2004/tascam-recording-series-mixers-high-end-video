@@ -93,23 +93,51 @@ def check(path, lo, hi, label, allow_silent=False):
           f"{audio[0].get('channels')}ch")
 
 
-print("BEDS")
-check(os.path.join(AUD_DIR, "music-bed.mp3"), TOTAL_SECONDS - 0.4, TOTAL_SECONDS + 0.4, "music")
-check(os.path.join(AUD_DIR, "ambient-bed.mp3"), TOTAL_SECONDS - 0.4, TOTAL_SECONDS + 0.4, "ambient")
+LF_SECONDS = 298.0
+IS_LF = "--lf" in sys.argv
 
-print("VO PLACEHOLDER (silence is expected here)")
-check(os.path.join(VO_DIR, "voiceover-reel-tascam.mp3"), TOTAL_SECONDS - 0.4,
-      TOTAL_SECONDS + 0.4, "vo", allow_silent=True)
+if IS_LF:
+    print("LONG-FORM BEDS")
+    check(os.path.join(AUD_DIR, "music-bed-longform.mp3"), LF_SECONDS - 0.4, LF_SECONDS + 0.4, "music")
+    check(os.path.join(AUD_DIR, "ambient-bed-longform.mp3"), LF_SECONDS - 0.4, LF_SECONDS + 0.4, "ambient")
 
-print("SFX")
-sfx = sorted(f for f in os.listdir(SFX_DIR) if f.endswith(".mp3"))
-for f in sfx:
-    check(os.path.join(SFX_DIR, f), 0.15, 3.2, "sfx")
+    print("VO PLACEHOLDER (silence is expected here)")
+    check(os.path.join(VO_DIR, "voiceover-longform-tascam.mp3"), LF_SECONDS - 0.4,
+          LF_SECONDS + 0.4, "vo", allow_silent=True)
 
-print()
-if fail:
-    print(f"FAILED — {len(fail)} problem(s):")
-    for f in fail:
-        print("  ", f)
-    sys.exit(1)
-print(f"PASS — 2 beds + 1 vo placeholder + {len(sfx)} sfx all valid.")
+    print("SFX (full palette — reel's 35 + this video's 4 new ones)")
+    sfx = sorted(f for f in os.listdir(SFX_DIR) if f.endswith(".mp3"))
+    for f in sfx:
+        # chapter-out is the video's single closing resolve, deliberately
+        # longer than any per-cut transition sound.
+        hi = 3.4 if f == "chapter-out.mp3" else 3.2
+        check(os.path.join(SFX_DIR, f), 0.15, hi, "sfx")
+
+    print()
+    if fail:
+        print(f"FAILED — {len(fail)} problem(s):")
+        for f in fail:
+            print("  ", f)
+        sys.exit(1)
+    print(f"PASS — 2 long-form beds + 1 vo placeholder + {len(sfx)} sfx all valid.")
+else:
+    print("BEDS")
+    check(os.path.join(AUD_DIR, "music-bed.mp3"), TOTAL_SECONDS - 0.4, TOTAL_SECONDS + 0.4, "music")
+    check(os.path.join(AUD_DIR, "ambient-bed.mp3"), TOTAL_SECONDS - 0.4, TOTAL_SECONDS + 0.4, "ambient")
+
+    print("VO PLACEHOLDER (silence is expected here)")
+    check(os.path.join(VO_DIR, "voiceover-reel-tascam.mp3"), TOTAL_SECONDS - 0.4,
+          TOTAL_SECONDS + 0.4, "vo", allow_silent=True)
+
+    print("SFX")
+    sfx = sorted(f for f in os.listdir(SFX_DIR) if f.endswith(".mp3"))
+    for f in sfx:
+        check(os.path.join(SFX_DIR, f), 0.15, 3.2, "sfx")
+
+    print()
+    if fail:
+        print(f"FAILED — {len(fail)} problem(s):")
+        for f in fail:
+            print("  ", f)
+        sys.exit(1)
+    print(f"PASS — 2 beds + 1 vo placeholder + {len(sfx)} sfx all valid.")
