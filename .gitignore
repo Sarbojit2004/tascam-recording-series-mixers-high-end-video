@@ -150,6 +150,8 @@ vite.config.ts.timestamp-*
 !out/
 out/*
 !out/tascam-model-series-reel.mp4
+!out/tascam-model-series-longform.mp4
+!out/thumbnail-tascam-longform.png
 # out/_raw-reel.mp4 stays ignored — it is the untrimmed Remotion intermediate.
 !out/thumbnail-tascam-reel.png
 
