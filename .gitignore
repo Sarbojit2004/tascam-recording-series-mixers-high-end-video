@@ -141,3 +141,19 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# ---------------------------------------------------------------------------
+# Project-specific (TASCAM reel)
+# ---------------------------------------------------------------------------
+# `out` is ignored above as a Next.js build dir. This project SHIPS its render
+# from out/, so re-include the directory and the two real deliverables.
+!out/
+out/*
+!out/tascam-model-series-reel.mp4
+# out/_raw-reel.mp4 stays ignored — it is the untrimmed Remotion intermediate.
+!out/thumbnail-tascam-reel.png
+
+# Render-safe mirrors of assets already tracked at the repository root.
+# Regenerate with `npm run assets` — see scripts/prepare_assets.py.
+public/img/
+public/video/

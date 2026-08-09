@@ -1,0 +1,39 @@
+{
+  "name": "tascam-model-series-reel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "88-second vertical reel for the TASCAM Model 12 / 16 / 24 / 2400 and Studio Bridge.",
+  "scripts": {
+    "assets": "python3 scripts/prepare_assets.py",
+    "audio": "python3 scripts/gen_audio.py && python3 scripts/audit_audio.py",
+    "coverage": "node scripts/check_coverage.mjs",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run coverage && npm run typecheck",
+    "stills": "node scripts/stills.mjs",
+    "stills:guides": "node scripts/stills.mjs --guides",
+    "safezone": "python3 scripts/check_safezone.py",
+    "start": "remotion studio",
+    "prerender": "npm run check",
+    "render:raw": "remotion render Reel out/_raw-reel.mp4 --frames=0-2639 --codec=h264 --crf=18 --pixel-format=yuv420p",
+    "render": "npm run render:raw && python3 scripts/finalize.py && python3 scripts/verify_output.py",
+    "thumbnail": "remotion still src/index.ts Thumbnail out/thumbnail-tascam-reel.png"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.409",
+    "@remotion/cli": "4.0.409",
+    "@remotion/renderer": "4.0.409",
+    "@remotion/media-utils": "4.0.409",
+    "@remotion/noise": "4.0.409",
+    "@remotion/paths": "4.0.409",
+    "@remotion/shapes": "4.0.409",
+    "@remotion/transitions": "4.0.409",
+    "remotion": "4.0.409",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "typescript": "5.6.3"
+  }
+}
