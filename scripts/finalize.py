@@ -38,13 +38,22 @@ import wave
 import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RAW = os.path.join(ROOT, "out", "_raw-reel.mp4")
-FINAL = os.path.join(ROOT, "out", "tascam-model-series-reel.mp4")
+IS_LF = "--lf" in sys.argv
+_args = [a for a in sys.argv[1:] if a != "--lf"]
 
-TOTAL_FRAMES = 2640
+if IS_LF:
+    RAW = os.path.join(ROOT, "out", "_raw-longform.mp4")
+    FINAL = os.path.join(ROOT, "out", "tascam-model-series-longform.mp4")
+    TOTAL_FRAMES = 8940
+    FADE_SECONDS = 1.2  # longer program, longer resolve into the closing chord
+else:
+    RAW = os.path.join(ROOT, "out", "_raw-reel.mp4")
+    FINAL = os.path.join(ROOT, "out", "tascam-model-series-reel.mp4")
+    TOTAL_FRAMES = 2640
+    FADE_SECONDS = 0.6
+
 FPS = 30
-SECONDS = TOTAL_FRAMES / FPS  # 88.000
-FADE_SECONDS = 0.6
+SECONDS = TOTAL_FRAMES / FPS
 
 
 def ff(args, **kw):
@@ -111,6 +120,6 @@ def main(src, dst):
 
 
 if __name__ == "__main__":
-    a = sys.argv[1] if len(sys.argv) > 1 else RAW
-    b = sys.argv[2] if len(sys.argv) > 2 else FINAL
+    a = _args[0] if len(_args) > 0 else RAW
+    b = _args[1] if len(_args) > 1 else FINAL
     raise SystemExit(main(a, b))

@@ -1,10 +1,11 @@
 {
-  "name": "tascam-model-series-reel",
+  "name": "tascam-model-series-video",
   "version": "1.0.0",
   "private": true,
-  "description": "88-second vertical reel for the TASCAM Model 12 / 16 / 24 / 2400 and Studio Bridge.",
+  "description": "TASCAM Model 12/16/24/2400 & Studio Bridge — 88s reel and 298s long-form video, for Shivansh Electronics.",
   "scripts": {
     "assets": "python3 scripts/prepare_assets.py",
+
     "audio": "python3 scripts/gen_audio.py && python3 scripts/audit_audio.py",
     "coverage": "node scripts/check_coverage.mjs",
     "typecheck": "tsc --noEmit",
@@ -12,11 +13,25 @@
     "stills": "node scripts/stills.mjs",
     "stills:guides": "node scripts/stills.mjs --guides",
     "safezone": "python3 scripts/check_safezone.py",
-    "start": "remotion studio",
     "prerender": "npm run check",
     "render:raw": "remotion render Reel out/_raw-reel.mp4 --frames=0-2639 --codec=h264 --crf=18 --pixel-format=yuv420p",
     "render": "npm run render:raw && python3 scripts/finalize.py && python3 scripts/verify_output.py",
-    "thumbnail": "remotion still src/index.ts Thumbnail out/thumbnail-tascam-reel.png"
+    "thumbnail": "remotion still src/index.ts Thumbnail out/thumbnail-tascam-reel.png",
+
+    "audio:lf": "python3 scripts/gen_audio_longform.py && python3 scripts/audit_audio.py --lf",
+    "coverage:lf": "node scripts/check_coverage.mjs --lf",
+    "check:lf": "npm run coverage:lf && npm run typecheck",
+    "stills:lf": "node scripts/stills_lf.mjs",
+    "stills:lf:guides": "node scripts/stills_lf.mjs --guides",
+    "edgemargin:lf": "python3 scripts/check_edge_margin.py",
+    "branding:lf": "node scripts/check_branding_cadence.mjs",
+    "prerender:lf": "npm run check:lf",
+    "render:raw:lf": "remotion render LongForm out/_raw-longform.mp4 --frames=0-8939 --codec=h264 --crf=18 --pixel-format=yuv420p",
+    "render:lf": "npm run render:raw:lf && python3 scripts/finalize.py --lf && python3 scripts/verify_output.py --lf",
+    "thumbnail:lf": "remotion still src/index.ts LongFormThumbnail out/thumbnail-tascam-longform.png",
+
+    "start": "remotion studio",
+    "package": "bash scripts/package_project.sh"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.409",

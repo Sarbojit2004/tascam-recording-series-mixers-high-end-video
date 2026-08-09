@@ -150,6 +150,8 @@ vite.config.ts.timestamp-*
 !out/
 out/*
 !out/tascam-model-series-reel.mp4
+!out/tascam-model-series-longform.mp4
+!out/thumbnail-tascam-longform.png
 # out/_raw-reel.mp4 stays ignored — it is the untrimmed Remotion intermediate.
 !out/thumbnail-tascam-reel.png
 
@@ -157,3 +159,7 @@ out/*
 # Regenerate with `npm run assets` — see scripts/prepare_assets.py.
 public/img/
 public/video/
+
+# Safety-net project zip — keep it tracked (it's a deliverable, not a build
+# artifact); everything else in out/ stays ignored except the final renders.
+!out/tascam-project-source.zip

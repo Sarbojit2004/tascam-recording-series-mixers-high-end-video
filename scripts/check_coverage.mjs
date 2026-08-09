@@ -2,12 +2,13 @@
 /**
  * Compulsory-coverage audit.
  *
- * Asserts that every product/context asset on disk appears in PLACEMENTS
- * exactly once, and reports the primary/ambient split and the still/video
- * split. Run before every full render — a missing asset is a hard failure,
- * not a warning.
+ * Asserts that every product/context asset on disk appears in its placement
+ * table exactly once. Run before every full render — a missing asset is a
+ * hard failure, not a warning.
  *
- *   node scripts/check_coverage.mjs
+ *   node scripts/check_coverage.mjs          # the reel (two-tier: primary/ambient)
+ *   node scripts/check_coverage.mjs --lf      # the long-form video (single-tier)
+ *   node scripts/check_coverage.mjs --md      # also (re)write ASSET_COVERAGE.md
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -23,104 +24,208 @@ const onDiskClips = fs.readdirSync(VID).filter((f) => f.endsWith('.mp4'))
   .map((f) => f.replace(/\.mp4$/, '')).sort();
 const onDisk = new Set([...onDiskStills, ...onDiskClips]);
 
-// PLACEMENTS is plain data — parse it out of the TS source rather than adding
-// a build step just to read one table.
-const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'assets.ts'), 'utf8');
-const body = src.slice(
-  src.indexOf('export const PLACEMENTS'),
-  src.indexOf('/** Flattened views'),
-);
-
-const scenes = [];
-const sceneRe = /(S\d\d):\s*\{([\s\S]*?)\},\n/g;
-let m;
-while ((m = sceneRe.exec(body)) !== null) {
-  const id = m[1];
-  const inner = m[2];
-  const pick = (key) => {
-    const mm = new RegExp(`${key}:\\s*\\[([\\s\\S]*?)\\]`).exec(inner);
-    if (!mm) return [];
-    return [...mm[1].matchAll(/'([^']+)'/g)].map((x) => x[1]);
-  };
-  scenes.push({id, primary: pick('primary'), ambient: pick('ambient')});
+if (process.argv.includes('--lf')) {
+  runLf();
+} else {
+  runReel();
 }
 
-if (scenes.length !== 24) {
-  console.error(`FAIL — parsed ${scenes.length} scenes, expected 24`);
-  process.exit(1);
-}
-
-const seen = new Map(); // id -> [{scene, tier}]
-for (const s of scenes) {
-  for (const id of s.primary) {
-    if (!seen.has(id)) seen.set(id, []);
-    seen.get(id).push({scene: s.id, tier: 'primary'});
+function runLf() {
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'lf-assets.ts'), 'utf8');
+  const body = src.slice(src.indexOf('export const LF_PLACEMENTS'), src.lastIndexOf('};') + 2);
+  const scenes = [];
+  const sceneRe = /(\w+):\s*\[([\s\S]*?)\],\n/g;
+  let m;
+  while ((m = sceneRe.exec(body)) !== null) {
+    const ids = [...m[2].matchAll(/'([^']+)'/g)].map((x) => x[1]);
+    scenes.push({id: m[1], ids});
   }
-  for (const id of s.ambient) {
-    if (!seen.has(id)) seen.set(id, []);
-    seen.get(id).push({scene: s.id, tier: 'ambient'});
+  if (scenes.length !== 37) {
+    console.error(`FAIL — parsed ${scenes.length} LF scenes, expected 37`);
+    process.exit(1);
   }
-}
 
-const missing = [...onDisk].filter((id) => !seen.has(id)).sort();
-const unknown = [...seen.keys()].filter((id) => !onDisk.has(id)).sort();
-const dupes = [...seen.entries()].filter(([, v]) => v.length > 1);
-
-const primaryCount = scenes.reduce((a, s) => a + s.primary.length, 0);
-const ambientCount = scenes.reduce((a, s) => a + s.ambient.length, 0);
-const clipPlacements = [...seen.entries()].filter(([id]) => onDiskClips.includes(id));
-const clipsAsMotion = clipPlacements.filter(([, v]) => v.some((p) => p.tier === 'primary'));
-
-console.log('ASSET COVERAGE');
-console.log(`  on disk        : ${onDiskStills.length} stills + ${onDiskClips.length} clips = ${onDisk.size}`);
-console.log(`  placed         : ${seen.size}`);
-console.log(`  primary tier   : ${primaryCount}`);
-console.log(`  ambient tier   : ${ambientCount}`);
-console.log(`  clips as motion: ${clipsAsMotion.length}/${onDiskClips.length}`);
-console.log();
-
-console.log('PER-SCENE LEDGER');
-for (const s of scenes) {
-  const p = s.primary.length ? `primary[${s.primary.length}] ${s.primary.join(' ')}` : 'primary[0]';
-  const a = s.ambient.length ? `  ambient[${s.ambient.length}] ${s.ambient.join(' ')}` : '';
-  console.log(`  ${s.id}  ${p}${a}`);
-}
-console.log();
-
-let bad = false;
-if (missing.length) {
-  bad = true;
-  console.error(`FAIL — ${missing.length} asset(s) never placed:`);
-  for (const id of missing) console.error('   ', id);
-}
-if (unknown.length) {
-  bad = true;
-  console.error(`FAIL — ${unknown.length} placed id(s) not on disk:`);
-  for (const id of unknown) console.error('   ', id);
-}
-if (dupes.length) {
-  bad = true;
-  console.error(`FAIL — ${dupes.length} asset(s) placed more than once:`);
-  for (const [id, v] of dupes) {
-    console.error('   ', id, v.map((x) => `${x.scene}/${x.tier}`).join(', '));
+  const seen = new Map();
+  for (const s of scenes) {
+    for (const id of s.ids) {
+      if (!seen.has(id)) seen.set(id, []);
+      seen.get(id).push(s.id);
+    }
   }
-}
-if (clipsAsMotion.length !== onDiskClips.length) {
-  bad = true;
-  console.error('FAIL — a video clip is not placed in the primary tier, so its motion never plays.');
+
+  const missing = [...onDisk].filter((id) => !seen.has(id)).sort();
+  const unknown = [...seen.keys()].filter((id) => !onDisk.has(id)).sort();
+  const dupes = [...seen.entries()].filter(([, v]) => v.length > 1);
+  const clipScenes = [...seen.entries()].filter(([id]) => onDiskClips.includes(id));
+
+  console.log('LONG-FORM ASSET COVERAGE');
+  console.log(`  on disk : ${onDiskStills.length} stills + ${onDiskClips.length} clips = ${onDisk.size}`);
+  console.log(`  placed  : ${seen.size}`);
+  console.log(`  clips placed: ${clipScenes.length}/${onDiskClips.length} -> ${clipScenes.map(([id, v]) => `${id}@${v[0]}`).join(', ')}`);
+  console.log();
+  for (const s of scenes) {
+    console.log(`  ${s.id.padEnd(9)} [${String(s.ids.length).padStart(2)}] ${s.ids.join(' ')}`);
+  }
+  console.log();
+
+  let bad = false;
+  if (missing.length) { bad = true; console.error(`FAIL — ${missing.length} asset(s) never placed:`); for (const id of missing) console.error('   ', id); }
+  if (unknown.length) { bad = true; console.error(`FAIL — ${unknown.length} placed id(s) not on disk:`); for (const id of unknown) console.error('   ', id); }
+  if (dupes.length) { bad = true; console.error(`FAIL — ${dupes.length} asset(s) placed more than once:`); for (const [id, v] of dupes) console.error('   ', id, v.join(', ')); }
+  if (clipScenes.length !== onDiskClips.length) { bad = true; console.error('FAIL — not every clip is placed.'); }
+
+  if (bad) process.exit(1);
+  console.log(`PASS — all ${onDisk.size} compulsory assets placed exactly once across 37 long-form scenes, all ${onDiskClips.length} clips placed.`);
+
+  if (process.argv.includes('--md')) writeLfLedger(scenes);
 }
 
-if (bad) process.exit(1);
-console.log(`PASS — all ${onDisk.size} compulsory assets placed exactly once, all ${onDiskClips.length} clips play as motion.`);
+function writeLfLedger(scenes) {
+  const map = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'lib', 'asset-map.json'), 'utf8'));
+  const srcOf = new Map(map.map((m) => [m.id, m.src]));
+  const {LF_SCENES} = parseLfTheme();
+  const durOf = new Map(LF_SCENES.map((s) => [s.id, s.dur]));
 
-// --md writes the human-readable ledger that ships with the repo.
-if (process.argv.includes('--md')) {
-  const map = JSON.parse(
-    fs.readFileSync(path.join(ROOT, 'src', 'lib', 'asset-map.json'), 'utf8'),
+  const L = [];
+  L.push('# Long-Form Asset Coverage Ledger');
+  L.push('');
+  L.push('Machine-generated by `node scripts/check_coverage.mjs --lf --md`. Every');
+  L.push('product/context asset in this repository must appear somewhere in the');
+  L.push('finished 298-second video; this file is the proof.');
+  L.push('');
+  L.push(`| | |\n|---|---|\n| Stills on disk | ${onDiskStills.length} |\n| Video clips on disk | ${onDiskClips.length} |\n| **Compulsory total** | **${onDisk.size}** |`);
+  L.push('');
+
+  let from = 0;
+  for (const s of scenes) {
+    const dur = durOf.get(s.id) ?? 0;
+    const to = from + dur;
+    L.push(`## ${s.id}`);
+    L.push('');
+    L.push(`Frames ${from}–${to} · ${(from / 30).toFixed(2)}s – ${(to / 30).toFixed(2)}s`);
+    L.push('');
+    if (s.ids.length) {
+      L.push('| Asset | Source file |');
+      L.push('|---|---|');
+      for (const id of s.ids) {
+        const isClip = onDiskClips.includes(id);
+        L.push(`| \`${id}\` | ${srcOf.get(id) ?? '—'}${isClip ? ' · **plays as motion**' : ''} |`);
+      }
+    } else {
+      L.push('_Typographic/branding beat — no new assets introduced._');
+    }
+    L.push('');
+    from = to;
+  }
+  L.push(`**Total runtime: ${from} frames = ${(from / 30).toFixed(3)} s.**`);
+
+  fs.writeFileSync(path.join(ROOT, 'ASSET_COVERAGE_LONGFORM.md'), L.join('\n'));
+  console.log('wrote ASSET_COVERAGE_LONGFORM.md');
+}
+
+function parseLfTheme() {
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'lf-theme.ts'), 'utf8');
+  const body = src.slice(src.indexOf('export const LF_SCENES'), src.indexOf('];', src.indexOf('export const LF_SCENES')) + 2);
+  const scenes = [...body.matchAll(/\{id:\s*'(\w+)',\s*dur:\s*(\d+)/g)].map((m) => ({id: m[1], dur: Number(m[2])}));
+  return {LF_SCENES: scenes};
+}
+
+function runReel() {
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'assets.ts'), 'utf8');
+  const body = src.slice(
+    src.indexOf('export const PLACEMENTS'),
+    src.indexOf('/** Flattened views'),
   );
+
+  const scenes = [];
+  const sceneRe = /(S\d\d):\s*\{([\s\S]*?)\},\n/g;
+  let m;
+  while ((m = sceneRe.exec(body)) !== null) {
+    const id = m[1];
+    const inner = m[2];
+    const pick = (key) => {
+      const mm = new RegExp(`${key}:\\s*\\[([\\s\\S]*?)\\]`).exec(inner);
+      if (!mm) return [];
+      return [...mm[1].matchAll(/'([^']+)'/g)].map((x) => x[1]);
+    };
+    scenes.push({id, primary: pick('primary'), ambient: pick('ambient')});
+  }
+
+  if (scenes.length !== 24) {
+    console.error(`FAIL — parsed ${scenes.length} scenes, expected 24`);
+    process.exit(1);
+  }
+
+  const seen = new Map();
+  for (const s of scenes) {
+    for (const id of s.primary) {
+      if (!seen.has(id)) seen.set(id, []);
+      seen.get(id).push({scene: s.id, tier: 'primary'});
+    }
+    for (const id of s.ambient) {
+      if (!seen.has(id)) seen.set(id, []);
+      seen.get(id).push({scene: s.id, tier: 'ambient'});
+    }
+  }
+
+  const missing = [...onDisk].filter((id) => !seen.has(id)).sort();
+  const unknown = [...seen.keys()].filter((id) => !onDisk.has(id)).sort();
+  const dupes = [...seen.entries()].filter(([, v]) => v.length > 1);
+
+  const primaryCount = scenes.reduce((a, s) => a + s.primary.length, 0);
+  const ambientCount = scenes.reduce((a, s) => a + s.ambient.length, 0);
+  const clipPlacements = [...seen.entries()].filter(([id]) => onDiskClips.includes(id));
+  const clipsAsMotion = clipPlacements.filter(([, v]) => v.some((p) => p.tier === 'primary'));
+
+  console.log('ASSET COVERAGE');
+  console.log(`  on disk        : ${onDiskStills.length} stills + ${onDiskClips.length} clips = ${onDisk.size}`);
+  console.log(`  placed         : ${seen.size}`);
+  console.log(`  primary tier   : ${primaryCount}`);
+  console.log(`  ambient tier   : ${ambientCount}`);
+  console.log(`  clips as motion: ${clipsAsMotion.length}/${onDiskClips.length}`);
+  console.log();
+
+  console.log('PER-SCENE LEDGER');
+  for (const s of scenes) {
+    const p = s.primary.length ? `primary[${s.primary.length}] ${s.primary.join(' ')}` : 'primary[0]';
+    const a = s.ambient.length ? `  ambient[${s.ambient.length}] ${s.ambient.join(' ')}` : '';
+    console.log(`  ${s.id}  ${p}${a}`);
+  }
+  console.log();
+
+  let bad = false;
+  if (missing.length) {
+    bad = true;
+    console.error(`FAIL — ${missing.length} asset(s) never placed:`);
+    for (const id of missing) console.error('   ', id);
+  }
+  if (unknown.length) {
+    bad = true;
+    console.error(`FAIL — ${unknown.length} placed id(s) not on disk:`);
+    for (const id of unknown) console.error('   ', id);
+  }
+  if (dupes.length) {
+    bad = true;
+    console.error(`FAIL — ${dupes.length} asset(s) placed more than once:`);
+    for (const [id, v] of dupes) {
+      console.error('   ', id, v.map((x) => `${x.scene}/${x.tier}`).join(', '));
+    }
+  }
+  if (clipsAsMotion.length !== onDiskClips.length) {
+    bad = true;
+    console.error('FAIL — a video clip is not placed in the primary tier, so its motion never plays.');
+  }
+
+  if (bad) process.exit(1);
+  console.log(`PASS — all ${onDisk.size} compulsory assets placed exactly once, all ${onDiskClips.length} clips play as motion.`);
+
+  if (process.argv.includes('--md')) writeReelLedger(scenes, primaryCount, ambientCount, clipsAsMotion);
+}
+
+function writeReelLedger(scenes, primaryCount, ambientCount, clipsAsMotion) {
+  const map = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'lib', 'asset-map.json'), 'utf8'));
   const srcOf = new Map(map.map((m) => [m.id, m.src]));
 
-  // Mirrors SCENES in src/lib/theme.ts.
   const META = {
     S01: [150, 'Philosophy hook — ten-cut tactile strobe'],
     S02: [150, 'The range as an ascending ladder'],
@@ -161,7 +266,7 @@ if (process.argv.includes('--md')) {
   L.push(`| Stills on disk | ${onDiskStills.length} |`);
   L.push(`| Video clips on disk | ${onDiskClips.length} |`);
   L.push(`| **Compulsory total** | **${onDisk.size}** |`);
-  L.push(`| Placed | ${seen.size} |`);
+  L.push(`| Placed | ${scenes.reduce((a, s) => a + s.primary.length + s.ambient.length, 0)} |`);
   L.push(`| Primary tier | ${primaryCount} |`);
   L.push(`| Ambient tier | ${ambientCount} |`);
   L.push(`| Clips playing as motion | ${clipsAsMotion.length} / ${onDiskClips.length} |`);
