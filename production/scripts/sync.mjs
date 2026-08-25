@@ -38,9 +38,8 @@ for (const d of ["img", "logo", "video", "clips", "audio", "fonts"]) mkdirSync(r
 for (const i of [...man.images, ...man.videos]) {
   cpSync(resolve(ROOT, "assets", i.path), resolve(PUB, i.path));
 }
-// The derived HUD logo variants (white monochrome watermark, knocked-out
-// TASCAM mark) are generated after the manifest, so copy the logo directory
-// wholesale rather than by manifest entry.
+// Both logos are prepared by scripts/make_logos.py after the manifest is
+// written, so copy the logo directory wholesale rather than by manifest entry.
 for (const f of readdirSync(resolve(ROOT, "assets/logo"))) {
   cpSync(resolve(ROOT, "assets/logo", f), resolve(PUB, "logo", f));
 }

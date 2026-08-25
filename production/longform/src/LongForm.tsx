@@ -13,9 +13,12 @@ import { BEATS } from "./schedule.ts";
 import { frames, starts } from "./shared/beat.ts";
 import { Scene } from "./shared/components/Scenes.tsx";
 import { Shell } from "./shared/components/Shell.tsx";
+import { planBrand } from "./shared/brandplan.ts";
 import { COLOR } from "./shared/theme.ts";
 
 const AT = starts(BEATS, 30);
+/** Slot assignment for the branding rotation — deterministic per schedule. */
+const PLAN = planBrand(BEATS);
 
 export const LongForm: React.FC<{ silent?: boolean }> = ({ silent }) => (
   <AbsoluteFill style={{ background: COLOR.void }}>
@@ -31,7 +34,7 @@ export const LongForm: React.FC<{ silent?: boolean }> = ({ silent }) => (
         const d = frames(b.sec, 30);
         return (
           <Sequence key={b.id} from={AT[i]} durationInFrames={d} name={`${i + 1}. ${b.id}`}>
-            <Scene beat={b} dur={d} portrait={false} />
+            <Scene beat={b} dur={d} portrait={false} brand={PLAN[i]} />
           </Sequence>
         );
       })}
