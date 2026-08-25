@@ -20,7 +20,7 @@ participate in the Tri-Path Architecture, and `TriPathSplitter` throws if applie
 | | |
 |---|---|
 | **File** | `longform/out/parts/chunk-00…08.mp4` → `scripts/join.sh` → `tascam-model-series-longform.mp4` |
-| **Runtime** | 898.006 s · **26,940 frames** · 30 fps · 1920×1080 · 357.9 MB |
+| **Runtime** | 898.006 s · **26,940 frames** · 30 fps · 1920×1080 · 358.6 MB |
 | **Thumbnail** | `longform/out/thumbnail-tascam-longform.png` (1920×1080) |
 | **Music** | *Idiosyncrasies* — Gavin Luke (226.5 s, 71.8 BPM, 514 Hz centroid) |
 | **Beats** | 57 |
@@ -49,7 +49,7 @@ placing it earlier would have implied peerage with the consoles.
 
 | | |
 |---|---|
-| **File** | `reels/out/tascam-reel-1.mp4` · 74.0 MB |
+| **File** | `reels/out/tascam-reel-1.mp4` · 78.8 MB |
 | **Runtime** | 178.005 s · **5,340 frames** · 30 fps · 1080×1920 |
 | **Thumbnail** | `reels/out/thumbnail-tascam-reel-1.png` (1080×1920) |
 | **Music** | *Stay For A Minute* — Windshield (210.0 s, 89.1 BPM, 1147 Hz centroid) |
@@ -70,7 +70,7 @@ of the four music beds, matched to the survey's faster cut rate.
 
 | | |
 |---|---|
-| **File** | `reels/out/tascam-reel-2.mp4` · 69.4 MB |
+| **File** | `reels/out/tascam-reel-2.mp4` · 73.9 MB |
 | **Runtime** | 178.005 s · **5,340 frames** · 30 fps · 1080×1920 |
 | **Thumbnail** | `reels/out/thumbnail-tascam-reel-2.png` (1080×1920) |
 | **Music** | *Box of Black Pearls* — Vivera (226.5 s, 99.4 BPM, 961 Hz centroid) |
@@ -93,7 +93,7 @@ these two units.
 
 | | |
 |---|---|
-| **File** | `reels/out/tascam-reel-3.mp4` · 32.3 MB |
+| **File** | `reels/out/tascam-reel-3.mp4` · 34.7 MB |
 | **Runtime** | 178.005 s · **5,340 frames** · 30 fps · 1080×1920 |
 | **Thumbnail** | `reels/out/thumbnail-tascam-reel-3.png` (1080×1920) |
 | **Music** | *Like the Palm of Your Hand* — Harper Rey (148.8 s, 80.7 BPM, 584 Hz centroid) |
