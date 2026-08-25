@@ -40,3 +40,7 @@ assets/audio/
 # the 898 s render ships as keyframe-aligned chunks in out/parts/ plus
 # scripts/join.sh, which reconstructs it exactly (verified bit-identical).
 longform/out/tascam-model-series-longform.mp4
+
+# Synced copies of scripts/render/. `node scripts/sync.mjs <longform|reels>`
+# recreates them alongside src/shared/ and the public asset mirrors.
+*/scripts/
