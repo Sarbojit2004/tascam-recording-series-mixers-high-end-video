@@ -45,6 +45,17 @@ const justify = (a: Align) =>
   a === "left" ? "flex-start" : a === "right" ? "flex-end" : "center";
 
 /**
+ * The rail travels over full-bleed imagery, so its TEXT has to survive a lit
+ * frame as well as the near-black page. The logos need nothing — they carry
+ * their own opaque white ground — but the website, the handles and the numbers
+ * sit directly on the picture. This is invisible on the dark default and only
+ * asserts itself over bright content.
+ */
+const LEGIBLE: React.CSSProperties = {
+  textShadow: "0 1px 3px rgba(8,9,11,0.95), 0 0 9px rgba(8,9,11,0.75)",
+};
+
+/**
  * The rail. One absolutely-positioned band, top or bottom, outside the
  * caption-safe padding — which is where no scene ever draws type.
  */
@@ -82,7 +93,7 @@ const MarkLockup: React.FC<{ align: Align; portrait: boolean }> = ({ align, port
       }}
     >
       <Logo which="shivansh" height={r.markH} />
-      <div style={{ fontFamily: MONO, fontSize: r.web, fontWeight: 600, letterSpacing: r.webTrack, color: COLOR.amber }}>
+      <div style={{ fontFamily: MONO, fontSize: r.web, fontWeight: 600, letterSpacing: r.webTrack, color: COLOR.amber, ...LEGIBLE }}>
         {BRAND.website}
       </div>
     </div>
@@ -102,10 +113,10 @@ const SocialStrip: React.FC<{ portrait: boolean; align: Align }> = ({ portrait, 
     >
       {BRAND.socials.map(([k, v]) => (
         <div key={k} style={{ display: "flex", gap: 9, alignItems: "baseline" }}>
-          <span style={{ fontFamily: MONO, fontSize: r.tag, letterSpacing: r.tagTrack, color: COLOR.rimBright }}>
+          <span style={{ fontFamily: MONO, fontSize: r.tag, letterSpacing: r.tagTrack, color: COLOR.rimBright, ...LEGIBLE }}>
             {k.toUpperCase()}
           </span>
-          <span style={{ fontFamily: SANS, fontSize: r.body, color: COLOR.inkDim, letterSpacing: 0.3 }}>{v}</span>
+          <span style={{ fontFamily: SANS, fontSize: r.body, color: COLOR.inkDim, letterSpacing: 0.3, ...LEGIBLE }}>{v}</span>
         </div>
       ))}
     </div>
@@ -123,7 +134,7 @@ const NumberStrip: React.FC<{ portrait: boolean; align: Align }> = ({ portrait, 
         justifyContent: align === "right" ? "flex-end" : "flex-start",
       }}
     >
-      <span style={{ fontFamily: MONO, fontSize: r.tag, letterSpacing: r.tagTrack, color: COLOR.rimBright }}>
+      <span style={{ fontFamily: MONO, fontSize: r.tag, letterSpacing: r.tagTrack, color: COLOR.rimBright, ...LEGIBLE }}>
         CALL / WHATSAPP
       </span>
       {BRAND.numbers.map((n) => (
@@ -131,7 +142,7 @@ const NumberStrip: React.FC<{ portrait: boolean; align: Align }> = ({ portrait, 
           key={n}
           style={{
             fontFamily: MONO, fontSize: r.num, fontWeight: 600, color: COLOR.ink,
-            letterSpacing: 0.8, fontVariantNumeric: "tabular-nums",
+            letterSpacing: 0.8, fontVariantNumeric: "tabular-nums", ...LEGIBLE,
           }}
         >
           {n}
@@ -151,7 +162,7 @@ const TascamLockup: React.FC<{ align: Align; portrait: boolean }> = ({ align, po
         alignItems: align === "right" ? "flex-end" : align === "left" ? "flex-start" : "center",
       }}
     >
-      <span style={{ fontFamily: MONO, fontSize: r.tag, letterSpacing: r.tagTrack, color: COLOR.rimBright }}>
+      <span style={{ fontFamily: MONO, fontSize: r.tag, letterSpacing: r.tagTrack, color: COLOR.rimBright, ...LEGIBLE }}>
         {BRAND.role.toUpperCase()}
       </span>
       <Logo which="tascam" height={r.tascamH} />
