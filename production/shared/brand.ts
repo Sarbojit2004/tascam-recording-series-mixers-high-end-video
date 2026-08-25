@@ -1,45 +1,51 @@
 /**
- * STAGE 10 — BRANDING, TYPOGRAPHY AND CONTACT.
+ * BRANDING — logo-led, matching the MOTU AVB and MOTU UltraLite-mk5 / 828
+ * productions.
  *
- * This replaces the AVB reference's intermittent logo-cadence pattern entirely.
- * Stage 10 specifies a PERSISTENT system: a continuous 60%-opacity watermark
- * locked to the top-right safe margin, plus a Data Ribbon running the full
- * width of the extreme bottom edge — both present for the whole runtime of all
- * four deliverables, never on a cadence timer.
+ * This replaces the earlier persistent-watermark + Data Ribbon mechanism
+ * entirely. That mechanism keyed the Shivansh mark to transparency and locked
+ * it to one corner for the whole runtime; both are gone.
+ *
+ * The two supplied logo files are now drawn EXACTLY as given — opaque, with
+ * their own white ground intact, with no alpha keying and no box, card, plate
+ * or panel added behind them. The white ground is part of the artwork and is
+ * deliberately preserved.
+ *
+ * Where this build departs from the MOTU reference is placement. MOTU anchors
+ * its corner lockup to one fixed corner; here the Shivansh mark is present on
+ * every beat but MOVES every beat, cycling through six anchored slots, so the
+ * website is marketed continuously without ever sitting still. The TASCAM mark
+ * follows the same system at a lower rate, and never shares a slot with it.
  *
  * There is no pricing surface anywhere in this project, by founding constraint.
- * Level 1 hero typography stands in the position pricing normally occupies and
- * is drawn exclusively from the Stage 8 master tables (see spec.ts).
  */
 
 export const BRAND = {
   name: "Shivansh Electronics",
-  /** Stage 7 Phase 4 — resolves on engineering authority, never on a price. */
+  /**
+   * The designation for this project. Deliberately NOT the distributor line
+   * used in the MOTU videos — this is a TASCAM production and the relationship
+   * is stated as a partnership with TASCAM.
+   */
+  role: "Authorised Partner of TASCAM",
+  region: "East and North East India",
   descriptor: "Professional Audio Infrastructure",
   website: "www.shivanshelectronics.in",
   socials: [
-    "instagram.com/@shivanshelectronics.in",
-    "facebook.com/@shivanshelectronics.in",
-    "youtube.com/@shivanshelectronics-in",
-  ],
+    ["Instagram", "instagram.com/@shivanshelectronics.in"],
+    ["Facebook", "facebook.com/@shivanshelectronics.in"],
+    ["YouTube", "youtube.com/@shivanshelectronics-in"],
+  ] as ReadonlyArray<readonly [string, string]>,
   numbers: ["+91 98316 62458", "+91 91477 00677", "+91 89818 07755"],
 } as const;
 
-/** Centre zone of the Data Ribbon, piped exactly as Stage 10 specifies. */
-export const RIBBON_CENTER = `| ${BRAND.socials.join(" | ")} |`;
-/** Right zone of the Data Ribbon. */
-export const RIBBON_RIGHT = BRAND.numbers.join(" | ");
-/** Left zone of the Data Ribbon. */
-export const RIBBON_LEFT = BRAND.website;
-
 /**
  * Strings that must never appear in any rendered text, in any deliverable.
- * scripts/check-content.mjs greps the built scene copy for all of these.
  *
  *  - Pricing: absolute founding constraint of the brief.
- *  - Other audio brands: Stage 14-equivalent competitor exclusion. TASCAM
- *    itself is deliberately absent from this list — this IS a TASCAM product
- *    line and the brand is named throughout, accurately and confidently.
+ *  - Other audio brands: competitor exclusion. TASCAM itself is deliberately
+ *    absent from this list — this IS a TASCAM product line, the brand is named
+ *    throughout, and its logo is now marketed alongside Shivansh's.
  */
 export const FORBIDDEN = {
   pricing: [

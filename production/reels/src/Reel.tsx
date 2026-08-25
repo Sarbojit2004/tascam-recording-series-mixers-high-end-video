@@ -15,12 +15,14 @@ import type { Beat } from "./shared/beat.ts";
 import { frames, starts } from "./shared/beat.ts";
 import { Scene } from "./shared/components/Scenes.tsx";
 import { Shell } from "./shared/components/Shell.tsx";
+import { planBrand } from "./shared/brandplan.ts";
 import { COLOR } from "./shared/theme.ts";
 
 export const Reel: React.FC<{ beats: Beat[]; slug: string; silent?: boolean }> = ({
   beats, slug, silent,
 }) => {
   const at = starts(beats, 30);
+  const PLAN = planBrand(beats);
   return (
     <AbsoluteFill style={{ background: COLOR.void }}>
       {!silent && (
@@ -29,12 +31,12 @@ export const Reel: React.FC<{ beats: Beat[]; slug: string; silent?: boolean }> =
           <Audio src={staticFile(`audio/${slug}-sfx-timeline.wav`)} volume={1} />
         </>
       )}
-      <Shell portrait>
+      <Shell>
         {beats.map((b, i) => {
           const d = frames(b.sec, 30);
           return (
             <Sequence key={b.id} from={at[i]} durationInFrames={d} name={`${i + 1}. ${b.id}`}>
-              <Scene beat={b} dur={d} portrait />
+              <Scene beat={b} dur={d} portrait brand={PLAN[i]} />
             </Sequence>
           );
         })}

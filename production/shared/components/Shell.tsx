@@ -7,22 +7,16 @@
  * void reads as an instrumented environment rather than an empty black frame —
  * but both stay far below the imagery in contrast.
  *
- * Shell also mounts the two persistent Stage 10 elements, which is what makes
- * them structurally persistent rather than something each scene has to
- * remember: mount the shell, get the watermark and the ribbon.
+ * Shell draws the ground ONLY. Branding is no longer mounted here: it now
+ * moves per beat, so it belongs to the scene rather than to the frame. See
+ * `BrandLayer` in Brand.tsx and the allocator in brandplan.ts.
  */
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { COLOR } from "../theme.ts";
 import { FONT_CSS } from "../fonts.ts";
-import { DataRibbon, Watermark } from "./Brand.tsx";
 
-export const Shell: React.FC<{
-  children: React.ReactNode;
-  portrait?: boolean;
-  /** Hidden only for the thumbnail stills, which carry their own branding. */
-  chrome?: boolean;
-}> = ({ children, portrait, chrome = true }) => (
+export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <AbsoluteFill style={{ background: COLOR.void }}>
     <style>{FONT_CSS}</style>
 
@@ -54,12 +48,5 @@ export const Shell: React.FC<{
           "radial-gradient(128% 118% at 50% 46%, rgba(8,9,11,0) 52%, rgba(8,9,11,0.55) 84%, rgba(8,9,11,0.86) 100%)",
       }}
     />
-
-    {chrome && (
-      <>
-        <Watermark portrait={portrait} />
-        <DataRibbon portrait={portrait} />
-      </>
-    )}
   </AbsoluteFill>
 );

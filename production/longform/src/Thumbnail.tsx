@@ -6,20 +6,23 @@
  * is separated by a rule into its own zone with its own tier tag, because it is
  * not a peer console (Stage 1). Every unit is shown complete and uncropped.
  *
- * Branding follows Stage 10: the Shivansh mark, the website and the primary
- * contact line. No pricing, by founding constraint.
+ * Branding matches the films and the MOTU reference: both supplied logos drawn
+ * as given with their white ground intact, the Authorised Partner designation,
+ * the website, the three social channels and the contact line. No pricing, by
+ * founding constraint.
  */
 import React from "react";
-import { AbsoluteFill, Img, staticFile } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { Shell } from "./shared/components/Shell.tsx";
 import { Plate } from "./shared/components/Media.tsx";
+import { Logo } from "./shared/components/Brand.tsx";
 import { img } from "./shared/assets.ts";
 import { COLOR } from "./shared/theme.ts";
 import { MONO, SANS } from "./shared/fonts.ts";
 import { BRAND } from "./shared/brand.ts";
 
 export const LongFormThumbnail: React.FC = () => (
-  <Shell chrome={false}>
+  <Shell>
     <AbsoluteFill style={{ padding: "58px 64px 54px 64px", display: "flex", flexDirection: "column" }}>
       {/* ---- header ------------------------------------------------------ */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
@@ -57,7 +60,7 @@ export const LongFormThumbnail: React.FC = () => (
             ))}
           </div>
         </div>
-        <Img src={staticFile("logo/shivansh-watermark.png")} style={{ width: 300, opacity: 0.85 }} />
+          <Logo which="shivansh" height={86} />
       </div>
 
       {/* ---- the four consoles, then the bridge, separated --------------- */}
@@ -98,18 +101,40 @@ export const LongFormThumbnail: React.FC = () => (
         </div>
       </div>
 
-      {/* ---- footer ------------------------------------------------------ */}
+      {/* ---- footer: both marks, the designation and every contact route -- */}
       <div
         style={{
-          display: "flex", justifyContent: "space-between", alignItems: "center",
-          borderTop: `1px solid ${COLOR.line}`, paddingTop: 18, marginTop: 10, flexShrink: 0,
+          display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+          borderTop: `1px solid ${COLOR.line}`, paddingTop: 16, marginTop: 10, flexShrink: 0,
         }}
       >
-        <div style={{ fontFamily: SANS, fontSize: 22, letterSpacing: 2.4, color: COLOR.ribbon }}>
-          {BRAND.website}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ fontFamily: MONO, fontSize: 13, letterSpacing: 2.8, color: COLOR.rimBright }}>
+            {BRAND.role.toUpperCase()}
+          </div>
+          <Logo which="tascam" height={26} />
         </div>
-        <div style={{ fontFamily: MONO, fontSize: 26, fontWeight: 600, letterSpacing: 1.6, color: COLOR.ink }}>
-          {BRAND.numbers[0]}
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
+          <div style={{ fontFamily: MONO, fontSize: 27, fontWeight: 700, letterSpacing: 1.4, color: COLOR.amber }}>
+            {BRAND.website}
+          </div>
+          <div style={{ display: "flex", gap: 20 }}>
+            {BRAND.socials.map(([, v]) => (
+              <span key={v} style={{ fontFamily: SANS, fontSize: 14, color: COLOR.inkDim, opacity: 0.8 }}>{v}</span>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 4, alignItems: "flex-end" }}>
+          <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: 2.6, color: COLOR.rim }}>
+            CALL / WHATSAPP
+          </div>
+          {BRAND.numbers.slice(0, 2).map((n) => (
+            <div key={n} style={{ fontFamily: MONO, fontSize: 21, fontWeight: 600, letterSpacing: 1.2, color: COLOR.ink }}>
+              {n}
+            </div>
+          ))}
         </div>
       </div>
     </AbsoluteFill>

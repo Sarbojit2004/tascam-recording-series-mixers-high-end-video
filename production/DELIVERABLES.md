@@ -130,8 +130,39 @@ from the schedules themselves and fails the build on any violation.
 | Model 16 fader travel | UNVERIFIED in Stage 8 → mechanically excluded (`null`), never stated |
 | Product imagery | `object-fit: contain` throughout — the `Plate` component cannot crop |
 | Real video | No `playbackRate` prop exists on `RealClip`; natural speed is unbypassable |
-| Branding | Persistent 60 % Shivansh watermark + full-width Data Ribbon on every frame (Stage 10 cadence, not AVB's intermittent one) |
+| Branding | Both supplied logos drawn **exactly as given** — opaque, white ground intact, no plate or backing added, nothing keyed. The Shivansh mark is on every eligible beat and **moves every beat**; the TASCAM mark, the socials and the three numbers rotate alongside it. See the table below. |
+| Designation | "Authorised Partner of TASCAM" — deliberately not the distributor line used in the MOTU videos |
 | Captions | None burned in; the VO scripts reserve a placeholder audio slot |
+
+### Branding
+
+Rebuilt to match the MOTU AVB and MOTU UltraLite-mk5 / 828 productions: the logo
+files are used as supplied, opaque, with the white ground that was kept
+deliberately, and with no box, card or plate added behind them. What differs
+from the MOTU reference is placement — those anchor a corner lockup to one fixed
+corner, whereas here the marks travel.
+
+Six anchored slots (top / bottom × left / centre / right), reassigned every beat
+by `shared/brandplan.ts`. The rail lives outside the caption-safe padding, which
+is where no scene draws type, so it can move freely without ever colliding.
+
+| Deliverable | Shivansh mark | Moves | Slots used | TASCAM | Socials | Numbers |
+|---|---|---|---|---|---|---|
+| Long-form | 56 / 56 beats | every beat (55/55) | 6/6 | 6 | 6 | 6 |
+| Reel 1 | 17 / 17 beats | every beat (16/16) | 6/6 | 1 | 2 | 1 |
+| Reel 2 | 14 / 14 beats | every beat (13/13) | 6/6 | 1 | 1 | 1 |
+| Reel 3 | 10 / 10 beats | every beat (9/9) | 6/6 | 1 | 1 | 1 |
+
+Counts exclude each film's outro beat, which carries the full legend instead:
+both logos, the partner designation, the region, the website, all three social
+channels and all three numbers. `scripts/audit.mjs` fails the build if the mark
+ever misses an eligible beat, repeats a slot on consecutive beats, or if the
+TASCAM mark is not less frequent than the Shivansh one.
+
+This replaced an earlier mechanism — a fixed 60 %-opacity Shivansh watermark
+locked to the top-right corner plus a static full-width Data Ribbon — which
+keyed the mark to transparency and never moved. Both are gone, along with the
+knocked-out logo variants they depended on.
 
 ### Audio deliverables
 

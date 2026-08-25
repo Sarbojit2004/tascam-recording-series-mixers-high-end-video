@@ -1,34 +1,34 @@
 {
  "images": [
   {
-   "id": "shivansh-electronics-logo-for-video",
+   "id": "shivansh",
    "src": "SHIVANSH ELECTRONICS LOGO FOR VIDEO.png",
    "unit": "logo_shivansh",
    "kind": "real-image",
-   "w": 1920,
-   "h": 578,
+   "w": 2372,
+   "h": 714,
    "srcW": 2372,
    "srcH": 714,
    "ground": "light",
    "groundLum": 207.9,
    "sha": "d636e1d4da750367",
-   "path": "logo/shivansh-electronics-logo-for-video.png",
-   "note": null
+   "path": "logo/shivansh.png",
+   "note": "used exactly as supplied - opaque, white ground intact"
   },
   {
-   "id": "brand-logo-2",
+   "id": "tascam",
    "src": "TASCAM BRAND LOGO (2).png",
    "unit": "logo_tascam",
    "kind": "real-image",
-   "w": 1920,
-   "h": 578,
+   "w": 2372,
+   "h": 398,
    "srcW": 2372,
    "srcH": 714,
-   "ground": "dark",
+   "ground": "light",
    "groundLum": 9.3,
    "sha": "c92ea568e4bcb64d",
-   "path": "logo/brand-logo-2.png",
-   "note": null
+   "path": "logo/tascam.png",
+   "note": "used exactly as supplied - opaque, white ground intact"
   },
   {
    "id": "model-12-0",

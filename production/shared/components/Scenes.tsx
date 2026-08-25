@@ -12,12 +12,13 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import type { Beat } from "../beat.ts";
-import { COLOR, SAFE, SPACE } from "../theme.ts";
+import type { BrandPlan } from "../brandplan.ts";
+import { COLOR, RAIL_CLEAR, SAFE, SPACE } from "../theme.ts";
 import { MONO } from "../fonts.ts";
 import { beatOpacity, fade, linear } from "../anim.ts";
 import { Hero, Label, SpecRow, Sub, TierTag } from "./Type.tsx";
 import { ConnectorSweep, MacroReveal, MontageTile, NodalDrift, Plate, RealClip, Repr } from "./Media.tsx";
-import { OutroLegend } from "./Brand.tsx";
+import { BrandLayer, OutroLegend } from "./Brand.tsx";
 import { TriPathSplitter } from "../graphics/TriPathSplitter.tsx";
 import { DB25Injection } from "../graphics/DB25Injection.tsx";
 import { TimecodePulse } from "../graphics/TimecodePulse.tsx";
@@ -28,20 +29,38 @@ export interface SceneProps {
   beat: Beat;
   dur: number;
   portrait: boolean;
+  /** This beat's slot assignment from the branding rotation. */
+  brand: BrandPlan;
 }
 
 const padX = (p: boolean) => (p ? SAFE.marginX : SPACE.marginX);
-const padTop = (p: boolean) => (p ? SAFE.top : SPACE.marginY + 16);
-const padBot = (p: boolean) => (p ? SAFE.bottom : SPACE.marginY + 44);
+
+/**
+ * Type is inset far enough to clear the branding rail — but only on the edge
+ * the rail actually occupies for this beat. Reserving both edges everywhere
+ * would cost content height on every beat and, on the motion-graphics beats,
+ * pushed the scene label down into the graphic's own heading.
+ */
+const bands = (brand: BrandPlan) => ({
+  top: brand.mark?.band === "top" || brand.second?.slot.band === "top",
+  bottom: brand.mark?.band === "bottom" || brand.second?.slot.band === "bottom",
+});
+const padTop = (p: boolean, rail: boolean) =>
+  rail ? (p ? RAIL_CLEAR.portrait.top : RAIL_CLEAR.landscape.top)
+       : (p ? SAFE.top : SPACE.marginY + 16);
+const padBot = (p: boolean, rail: boolean) =>
+  rail ? (p ? RAIL_CLEAR.portrait.bottom : RAIL_CLEAR.landscape.bottom)
+       : (p ? SAFE.bottom : SPACE.marginY + 44);
 
 /** Content column that respects the caption-safe zone in portrait. */
 const Safe: React.FC<{
-  portrait: boolean; children: React.ReactNode; style?: React.CSSProperties;
-}> = ({ portrait, children, style }) => (
+  portrait: boolean; rail: { top: boolean; bottom: boolean };
+  children: React.ReactNode; style?: React.CSSProperties;
+}> = ({ portrait, rail, children, style }) => (
   <AbsoluteFill
     style={{
       paddingLeft: padX(portrait), paddingRight: padX(portrait),
-      paddingTop: padTop(portrait), paddingBottom: padBot(portrait),
+      paddingTop: padTop(portrait, rail.top), paddingBottom: padBot(portrait, rail.bottom),
       ...style,
     }}
   >
@@ -94,10 +113,11 @@ const Rule: React.FC<{ w: number | string }> = ({ w }) => {
   );
 };
 
-export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
+export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait, brand }) => {
   const f = useCurrentFrame();
   const o = beatOpacity(f, dur);
   const B = beat;
+  const rail = bands(brand);
 
   const inner = (() => {
     switch (B.kind) {
@@ -131,7 +151,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
                   : "linear-gradient(90deg, rgba(8,9,11,0.94) 0%, rgba(8,9,11,0.62) 38%, rgba(8,9,11,0.10) 72%)",
               }}
             />
-            <Safe portrait={portrait} style={{ justifyContent: portrait ? "flex-start" : "center" }}>
+            <Safe portrait={portrait} rail={rail} style={{ justifyContent: portrait ? "flex-start" : "center" }}>
               <HeroBlock beat={B} portrait={portrait} />
             </Safe>
           </>
@@ -141,7 +161,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
       /* ------------------------------------------- typographic statement */
       case "statement":
         return (
-          <Safe portrait={portrait} style={{ justifyContent: "center" }}>
+          <Safe portrait={portrait} rail={rail} style={{ justifyContent: "center" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: portrait ? 30 : 28 }}>
               {B.label && (
                 <div style={{ opacity: fade(f, 0, 12) }}>
@@ -178,7 +198,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
                   : "linear-gradient(180deg, rgba(8,9,11,0) 42%, rgba(8,9,11,0.62) 72%, rgba(8,9,11,0.92) 100%)",
               }}
             />
-            <Safe portrait={portrait} style={{ justifyContent: "flex-end" }}>
+            <Safe portrait={portrait} rail={rail} style={{ justifyContent: "flex-end" }}>
               <div style={{ opacity: fade(f, Math.round(dur * 0.42), Math.round(dur * 0.56)) }}>
                 <HeroBlock beat={B} portrait={portrait} />
               </div>
@@ -199,7 +219,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
                   : "linear-gradient(180deg, rgba(8,9,11,0) 42%, rgba(8,9,11,0.62) 72%, rgba(8,9,11,0.92) 100%)",
               }}
             />
-            <Safe portrait={portrait} style={{ justifyContent: "flex-end" }}>
+            <Safe portrait={portrait} rail={rail} style={{ justifyContent: "flex-end" }}>
               <div style={{ opacity: fade(f, 16, 34) }}>
                 <HeroBlock beat={B} portrait={portrait} />
               </div>
@@ -211,7 +231,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
       case "unit": {
         const im = img(B.images![0]);
         return portrait ? (
-          <Safe portrait style={{ justifyContent: "center", gap: 44 }}>
+          <Safe portrait rail={rail} style={{ justifyContent: "center", gap: 44 }}>
             <div style={{ height: "44%", opacity: fade(f, 12, 32), flexShrink: 0 }}>
               <NodalDrift image={im} dur={dur} ax={0.7} />
             </div>
@@ -222,7 +242,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
             <AbsoluteFill style={{ left: "40%", opacity: fade(f, 10, 30) }}>
               <NodalDrift image={im} dur={dur} ax={0.8} />
             </AbsoluteFill>
-            <Safe portrait={false} style={{ justifyContent: "center" }}>
+            <Safe portrait={false} rail={rail} style={{ justifyContent: "center" }}>
               <div style={{ width: "44%" }}>
                 <HeroBlock beat={B} portrait={false} />
               </div>
@@ -246,7 +266,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
         );
         const im = B.images?.[0] ? img(B.images[0]) : null;
         return portrait ? (
-          <Safe portrait style={{ justifyContent: "center", gap: 36 }}>
+          <Safe portrait rail={rail} style={{ justifyContent: "center", gap: 36 }}>
             <HeroBlock beat={B} portrait heroSize={64} />
             {im && (
               <div style={{ height: "32%", opacity: fade(f, 10, 26), flexShrink: 0 }}>
@@ -262,7 +282,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
                 <NodalDrift image={im} dur={dur} ax={0.5} />
               </AbsoluteFill>
             )}
-            <Safe portrait={false} style={{ justifyContent: "center" }}>
+            <Safe portrait={false} rail={rail} style={{ justifyContent: "center" }}>
               <div style={{ width: "46%", display: "flex", flexDirection: "column", gap: 26 }}>
                 <HeroBlock beat={B} portrait={false} heroSize={62} />
                 {table}
@@ -277,7 +297,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
         const ims = (B.images ?? []).map(img);
         const cols = portrait ? (ims.length >= 3 ? 2 : 1) : ims.length > 4 ? 3 : ims.length;
         return (
-          <Safe portrait={portrait} style={{ justifyContent: "center", gap: portrait ? 20 : 26 }}>
+          <Safe portrait={portrait} rail={rail} style={{ justifyContent: "center", gap: portrait ? 20 : 26 }}>
             <HeroBlock beat={B} portrait={portrait} heroSize={portrait ? 54 : 58} />
             <div
               style={{
@@ -315,6 +335,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
             />
             <Safe
               portrait={portrait}
+              rail={rail}
               style={{ justifyContent: portrait ? "space-between" : "flex-end" }}
             >
               <div style={{ opacity: fade(f, 14, 30) }}>
@@ -334,7 +355,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
       case "schematic": {
         const ims = (B.images ?? []).map(img);
         return (
-          <Safe portrait={portrait} style={{ justifyContent: "center", gap: portrait ? 26 : 30 }}>
+          <Safe portrait={portrait} rail={rail} style={{ justifyContent: "center", gap: portrait ? 26 : 30 }}>
             <HeroBlock beat={B} portrait={portrait} heroSize={portrait ? 54 : 58} />
             <div style={{ display: "flex", flexDirection: portrait ? "column" : "row", gap: portrait ? 20 : 26, flex: 1, minHeight: 0, alignItems: "center" }}>
               {ims.map((im, i) => (
@@ -352,7 +373,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
         return (
           <>
             <TriPathSplitter unit={B.unit ?? "model2400"} dur={dur} portrait={portrait} />
-            <Safe portrait={portrait} style={{ justifyContent: "flex-start" }}>
+            <Safe portrait={portrait} rail={rail} style={{ justifyContent: "flex-start" }}>
               <div style={{ opacity: fade(f, 0, 18) }}>
                 <Label size={portrait ? 17 : 16}>{B.label ?? "The Tri-Path Architecture"}</Label>
               </div>
@@ -364,7 +385,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
         return (
           <>
             <DB25Injection unit="studiobridge" dur={dur} portrait={portrait} />
-            <Safe portrait={portrait} style={{ justifyContent: "flex-start" }}>
+            <Safe portrait={portrait} rail={rail} style={{ justifyContent: "flex-start" }}>
               <div style={{ opacity: fade(f, 0, 18) }}>
                 <Label size={portrait ? 17 : 16}>{B.label ?? "The DB25 Injection"}</Label>
               </div>
@@ -376,7 +397,7 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
         return (
           <>
             <TimecodePulse unit={B.unit!} dur={dur} portrait={portrait} />
-            <Safe portrait={portrait} style={{ justifyContent: "flex-start" }}>
+            <Safe portrait={portrait} rail={rail} style={{ justifyContent: "flex-start" }}>
               <div style={{ opacity: fade(f, 0, 18) }}>
                 <Label size={portrait ? 17 : 16}>{B.label ?? "Timecode Synchronisation"}</Label>
               </div>
@@ -390,5 +411,10 @@ export const Scene: React.FC<SceneProps> = ({ beat, dur, portrait }) => {
     }
   })();
 
-  return <AbsoluteFill style={{ opacity: o }}>{inner}</AbsoluteFill>;
+  return (
+    <AbsoluteFill style={{ opacity: o }}>
+      {inner}
+      <BrandLayer plan={brand} portrait={portrait} />
+    </AbsoluteFill>
+  );
 };

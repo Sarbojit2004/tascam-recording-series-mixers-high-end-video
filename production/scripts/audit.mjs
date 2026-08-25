@@ -164,6 +164,25 @@ if (unusedClips.length) console.log(`   unused (permitted): ${unusedClips.join("
 const musics = DELIVERABLES.map((d) => d.music);
 console.log(`MUSIC           ${new Set(musics).size}/4 distinct tracks — ${new Set(musics).size === 4 ? "no overlap" : "OVERLAP"}`);
 
+/* ---------------------------------------------------------------- branding */
+// The Shivansh mark must be on every beat but never twice running in the same
+// place, and the TASCAM mark must appear markedly less often than it does.
+const { planBrand, planStats } = await import(resolve(ROOT, "shared/brandplan.ts"));
+console.log("─".repeat(78));
+for (const d of DELIVERABLES) {
+  const beats = await parseBeats(resolve(ROOT, d.file));
+  const st = planStats(planBrand(beats));
+  const eligible = beats.filter((b) => b.kind !== "outro").length;
+  if (st.mark !== eligible) failures.push(`${d.id}: Shivansh mark on ${st.mark}/${eligible} eligible beats`);
+  if (st.moves !== st.pairs) failures.push(`${d.id}: mark repeated its slot on ${st.pairs - st.moves} consecutive pair(s)`);
+  if (st.tascam >= st.mark) failures.push(`${d.id}: TASCAM mark (${st.tascam}) is not less frequent than Shivansh (${st.mark})`);
+  console.log(
+    `BRANDING ${d.id.padEnd(9)} Shivansh ${String(st.mark).padStart(2)}/${String(eligible).padStart(2)} beats · ` +
+    `moves every beat (${st.moves}/${st.pairs}) · ${st.distinctSlots}/6 slots · ` +
+    `TASCAM ${st.tascam} · socials ${st.socials} · numbers ${st.numbers}`,
+  );
+}
+
 console.log("═".repeat(78));
 if (failures.length) {
   console.log(`\n${failures.length} FAILURE(S):`);

@@ -31,7 +31,7 @@ project, so both ship as self-contained zips while staying one codebase.
 
 ```bash
 python3 scripts/prepare_assets.py     # enumerate, hash, classify, crop clips
-python3 scripts/make_logos.py         # HUD logo variants
+python3 scripts/make_logos.py         # both logos, as supplied (opaque, white ground)
 python3 scripts/knockout.py           # background treatment for light-ground stills
 node    scripts/synth-sfx.mjs         # 11 Layer 2 sounds, synthesised fresh
 python3 scripts/build_music.py        # 4 stem-built music beds
@@ -40,12 +40,23 @@ node    scripts/sync.mjs longform     # (and reels)
 
 cd longform && npm install
 node --experimental-strip-types scripts/render.mjs LongForm tascam-model-series-longform.mp4
+node --experimental-strip-types scripts/thumbs.mjs Thumbnail:thumbnail-tascam-longform
+```
+
+Reels, from `reels/`:
+
+```bash
+node --experimental-strip-types scripts/render.mjs Reel1 tascam-reel-1.mp4   # and Reel2 | Reel3
+node --experimental-strip-types scripts/thumbs.mjs \
+  Reel1Thumbnail:thumbnail-tascam-reel-1 \
+  Reel2Thumbnail:thumbnail-tascam-reel-2 \
+  Reel3Thumbnail:thumbnail-tascam-reel-3
 ```
 
 ## Audits
 
 ```bash
-node --experimental-strip-types scripts/audit.mjs          # coverage, clip reuse, content rules
+node --experimental-strip-types scripts/audit.mjs          # coverage, clip reuse, content rules, branding rotation
 node --experimental-strip-types scripts/check-vo-sync.mjs  # voiceover cues against beat boundaries
 python3 scripts/audit_audio.py                             # SFX floor / clipping / high-pass discipline
 python3 scripts/verify_output.py <mp4> <frames> <w> <h>    # the rendered file itself

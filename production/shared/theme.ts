@@ -89,21 +89,37 @@ export const SPACE = {
 } as const;
 
 /**
- * Stage 10's Data Ribbon runs across "the extreme bottom edge of the frame".
- * It is persistent broadcast furniture, not narrative content, so it sits
- * outside the SAFE band above by design; SAFE continues to govern everything
- * the viewer has to read to follow the argument.
+ * THE BRANDING RAIL.
+ *
+ * Two bands, one at each edge, sitting OUTSIDE the caption-safe padding — the
+ * region no scene ever draws type into. `brandplan.ts` moves the Shivansh mark
+ * between them every beat and rotates the socials, the contact numbers and the
+ * TASCAM mark alongside it, so the branding is continuously present and never
+ * twice in the same place.
+ *
+ * This replaces the previous WATERMARK + RIBBON pair outright: a fixed
+ * 60%-opacity corner watermark and a static bottom ribbon. Both are gone.
  */
-export const RIBBON = {
-  landscape: { height: 34, inset: 18, fontSize: 13, tracking: 1.7 },
-  portrait: { height: 62, inset: 12, fontSize: 12.5, tracking: 0.55 },
+export const RAIL = {
+  landscape: {
+    top: 24, bottom: 28, inset: 56,
+    markH: 62, tascamH: 32,
+    web: 17, webTrack: 1.7, tag: 13, tagTrack: 2.6, body: 16, num: 19, gap: 8,
+  },
+  portrait: {
+    top: 46, bottom: 50, inset: 48,
+    markH: 74, tascamH: 38,
+    web: 19, webTrack: 1.6, tag: 14, tagTrack: 2.5, body: 17, num: 21, gap: 9,
+  },
 } as const;
 
-/** Shivansh watermark — Stage 10: top-right safe margin, 60% opacity, always. */
-export const WATERMARK = {
-  opacity: 0.6,
-  landscape: { width: 188, top: 40, right: 56 },
-  portrait: { width: 150, top: 54, right: 56 },
+/**
+ * Padding that keeps scene TYPE clear of the rail bands above. Landscape gains
+ * the most: its old 68 / 96 insets predate the rail and left it no room.
+ */
+export const RAIL_CLEAR = {
+  landscape: { top: 134, bottom: 140 },
+  portrait: { top: SAFE.top, bottom: SAFE.bottom },
 } as const;
 
 export const RADII = { plate: 6, chip: 2, card: 10 } as const;
