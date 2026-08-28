@@ -1,0 +1,105 @@
+{
+  "note": "Prepared per Addendum Section 3. Not yet submitted — Higgsfield account holds 0 credits (30 credits/clip on gemini_omni x 12 clips = 360 credits needed). medias[].value is a placeholder: at execution time, upload each named real image via media_upload + media_confirm and substitute the returned media_id, then submit via generate_video_batch in groups of up to 12.",
+  "model": "gemini_omni",
+  "provider": "Google (Gemini Omni Flash, via Higgsfield MCP)",
+  "shared_params": { "duration": 10, "aspect_ratio": "16:9" },
+  "shared_negative_constraints": "No on-screen text, no graphic overlay, no Shivansh Electronics branding, no pricing. Do not invent hardware details not visible in the reference image(s); preserve the exact panel layout, control colors, and labeling shown.",
+  "clips": [
+    {
+      "id": "broll-model12-hui-automation",
+      "unit": "model12",
+      "scenario": "The Fader That Writes Itself",
+      "stage_ref": "Stage 4 M12 priority #1 (HUI/MCU DAW Emulation); Stage 2 M12 motivation (tactile control -> digital automation)",
+      "anchor_images": ["TASCAM MODEL 12 (10).jpg", "TASCAM MODEL 12 (14).jpg"],
+      "prompt": "Medium close shot, slight high angle, in a compact modern project studio at night: an engineer's hand rests on a physical fader on the real TASCAM Model 12 mixer shown in the reference images, then pushes it upward in one continuous, deliberate motion. In the same shot, two DAW monitor screens glow in the background, an automation lane visibly drawing itself in sync with the fader's exact movement. Camera holds steady, slow push-in over the ten seconds, staying wide enough to keep the fader hand and the automation screen in one frame together. Warm practical desk lighting, screens the only cool light source. No dialogue; faint fader-friction sound and a soft room tone. Preserve the Model 12's real panel layout, colour-coded knobs and wood side panel exactly as shown in the reference images — do not alter or generify the hardware."
+    },
+    {
+      "id": "broll-model12-broadcast-bridge",
+      "unit": "model12",
+      "scenario": "The Broadcast Bridge",
+      "stage_ref": "Stage 4 M12 priority #2 (TRRS Mix-Minus); official TASCAM workflow diagram",
+      "anchor_images": ["TASCAM MODEL 12 (8).jpg"],
+      "prompt": "Medium wide shot in a small streaming/broadcast setup: a camera on a tripod feeds an XLR cable down to the real TASCAM Model 12 console shown in the reference image; a presenter wearing headphones speaks silently into a mic connected to it, while a small streaming encoder box sits just beyond the console, its status LED steady. The camera performs a slow lateral track from the camera, across the console, to the encoder, visually tracing the exact signal path the reference diagram describes (camera to Model 12, main output to the encoder, delay-monitor path through headphones) without any diagram or text on screen. Clean, even studio lighting. No dialogue, ambient room tone only. Preserve the Model 12's real panel layout and labelling exactly as shown in the reference image."
+    },
+    {
+      "id": "broll-model16-committed-signal",
+      "unit": "model16",
+      "scenario": "The Committed Signal",
+      "stage_ref": "Stage 2 M16/M24 motivation (tactile control, analog-domain commitment)",
+      "anchor_images": ["TASCAM MODEL 16 (5).jpg", "TASCAM MODEL 16 (9).jpg"],
+      "prompt": "Handheld-steadied medium shot at a live show: a sound engineer stands over a flight-cased real TASCAM Model 16 console as shown in the reference images, mid-set, turning a gold-panel EQ knob with two fingers while a band performs softly out of focus behind. Blue and amber stage wash lighting. The camera holds close on the hand and knob for the first half, then eases back slightly to reveal the band on stage as the motion completes. No dialogue; live-room ambience and a faint band performance audible underneath. Preserve the Model 16's real gold control panel, wood trim and control labelling exactly as shown in the reference images."
+    },
+    {
+      "id": "broll-model16-three-destinations",
+      "unit": "model16",
+      "scenario": "Three Destinations, One Preamp",
+      "stage_ref": "Stage 4 M16 priority #1 (Tri-Path Signal Splitting); Stage 6 Tri-Path Splitter concept (physical counterpart)",
+      "anchor_images": ["TASCAM MODEL 16 (21).jpg", "TASCAM MODEL 16 (11).jpg"],
+      "prompt": "Top-down macro shot, slow continuous lateral dolly across the full channel strip of the real TASCAM Model 16 shown in the reference images: rows of colour-coded knobs and faders pass beneath the camera in sharp focus, shallow depth of field keeping only one channel crisp at a time. Clean studio lighting, no people in frame. The move is smooth and mechanical, evoking one signal being read and prepared for several destinations at once. No dialogue, a low electrical hum and faint studio room tone only. Preserve the Model 16's real knob colours, panel layout and labelling exactly as shown in the reference images."
+    },
+    {
+      "id": "broll-model24-no-computer",
+      "unit": "model24",
+      "scenario": "No Computer Required",
+      "stage_ref": "Stage 4 M24 priority #1 (24-Track Standalone SDXC Engine); Stage 2 M24 motivation (reliability, no crash risk)",
+      "anchor_images": ["TASCAM MODEL 24 CASE STUDY (2).jpg"],
+      "prompt": "Medium wide documentary-style shot in a converted loft studio with a large rug and natural window light, matching the reference image: a full band — bassist, drummer, second guitarist and vocalist — performs together while an engineer, seated at a rack-mounted real TASCAM Model 24 console as shown in the reference image, quietly rides two faders without looking at any screen. No laptop is present or being operated. Camera holds a static wide frame for the first half, then a slow, barely-perceptible push-in toward the console for the second half. Natural daylight, no artificial colour cast. No dialogue; the band's live performance is audible at low, ambient volume. Preserve the Model 24's real panel layout and finish exactly as shown in the reference image."
+    },
+    {
+      "id": "broll-model24-stage-feed",
+      "unit": "model24",
+      "scenario": "The Multi-Pin Stage Feed",
+      "stage_ref": "Stage 2 M24 motivation (touring reliability, dense I/O)",
+      "anchor_images": ["TASCAM MODEL 24 (13).jpg", "TASCAM MODEL 24 (15).jpg", "TASCAM MODEL 24 (18).jpg"],
+      "prompt": "Close handheld-steadied shot backstage under blue and violet stage wash, matching the reference images: a technician's hands connect a dense multi-channel cable snake into the rear panel of a real TASCAM Model 24 console as shown in the reference images, then the shot cuts on continuous motion to a second engineer's hand reaching across the front panel to press a channel mute button mid-performance, a laptop showing live input meters resting just out of focus beside the desk. Stage haze in the air, cool rim lighting. No dialogue; distant live-band audio and a faint electrical connector click. Preserve the Model 24's real rear-panel connectors and front-panel layout exactly as shown in the reference images."
+    },
+    {
+      "id": "broll-model2400-bus-glue",
+      "unit": "model2400",
+      "scenario": "The Bus That Glues the Mix",
+      "stage_ref": "Stage 4 M2400 priority #1 (24-Channel Analog Summing, Master Bus Processor)",
+      "anchor_images": ["TASCAM MODEL 2400 (9).jpg"],
+      "prompt": "Macro shot, slow continuous push-in on the Master Bus Processor section of the real TASCAM Model 2400 console shown in the reference image: a hand's fingers adjust the THRESH knob first, then move to ATTACK and MAKEUP in one unbroken motion, the section's labelled buttons and gold panel finish sharp in frame. Neutral studio lighting, dark background falling off softly behind the panel. No dialogue; a low mix-bus hum and faint knob-turn friction audible. Preserve the Master Bus Processor's exact knob labels, layout and gold panel finish as shown in the reference image — do not add or omit any control."
+    },
+    {
+      "id": "broll-model2400-one-clock",
+      "unit": "model2400",
+      "scenario": "One Clock, Every Machine",
+      "stage_ref": "Stage 4 M2400 priority #2 (Integrated MIDI/MTC/SPP Clocking); Stage 6 Timecode Synchronization Pulse concept (physical counterpart)",
+      "anchor_images": ["TASCAM MODEL 2400 (10).jpg"],
+      "prompt": "Close macro shot, static camera with a slow rack-focus from the console's rear-panel MAIN OUTPUT jacks toward the MIDI port further along the same panel, on the real TASCAM Model 2400 console shown in the reference image. A thin cable is already seated in the MIDI port; the focus pull settles on it as the shot ends. Cool, even studio lighting, dark background. No dialogue; a faint, steady clock-tick sound under low room tone. Preserve the rear panel's exact labelling and connector layout — MAIN OUTPUT, MAIN SEND/RETURN, CONTROL ROOM, AUX OUTPUT, SUB OUTPUT, CLICK/FOOTSWITCH/MIDI — exactly as shown in the reference image."
+    },
+    {
+      "id": "broll-studiobridge-stage-feed",
+      "unit": "studiobridge",
+      "scenario": "The Stage Feed, Captured",
+      "stage_ref": "Official TASCAM 'Multi-track live recording' diagram; Stage 7 phase 3 (Transparent Graft)",
+      "anchor_images": ["TASCAM STUDIO BRIDGE (18).jpg", "TASCAM STUDIO BRIDGE (13).jpg"],
+      "prompt": "Medium wide documentary shot in a sunlit loft studio matching the reference photograph: a full band performs (drummer, keyboardist, vocalist on a handheld mic), while in the foreground an engineer, seen from behind, sits at a rack containing the real TASCAM Studio Bridge unit shown in the reference images, hands resting near its transport buttons, no computer screen visible anywhere in frame. Camera holds a static wide shot for most of the duration, then a slow, minimal drift toward the rack in the final two seconds. Natural window light, no artificial colour cast. No dialogue; the band's live performance audible at low ambient volume. Preserve the Studio Bridge's real rack-mounted chassis, wood side trim and panel layout exactly as shown in the reference images."
+    },
+    {
+      "id": "broll-studiobridge-analog-digitized",
+      "unit": "studiobridge",
+      "scenario": "The Analog Desk, Digitized",
+      "stage_ref": "Official TASCAM 'Working with DAW-less system' diagram; Stage 4 Studio Bridge priority #1 (DB25 Line I/O)",
+      "anchor_images": ["TASCAM STUDIO BRIDGE (20).jpg", "TASCAM STUDIO BRIDGE (9).jpg"],
+      "prompt": "High overhead shot, static camera looking down at a large vintage analog mixing console with a real TASCAM Studio Bridge unit mounted above its meter bridge, matching the reference photograph exactly. An engineer's hand rests on one of the console's own faders below, making a small adjustment, while the Studio Bridge's status LEDs glow steadily above. No laptop, no computer screen anywhere in the frame. The camera holds the overhead angle throughout with only a barely-perceptible slow drift. Warm practical room lighting mixed with cool meter-glow from the Studio Bridge. No dialogue; a soft analog console hum and faint fader movement sound. Preserve the exact real console and Studio Bridge hardware, their relative mounting position, and panel finishes exactly as shown in the reference images."
+    },
+    {
+      "id": "broll-studiobridge-bridging-timeline",
+      "unit": "studiobridge",
+      "scenario": "Bridging to the Timeline",
+      "stage_ref": "Official TASCAM 'Working with DAW system' diagram",
+      "anchor_images": ["TASCAM STUDIO BRIDGE (19).jpg", "TASCAM STUDIO BRIDGE (14).jpg"],
+      "prompt": "Close handheld-steadied shot under cool blue accent lighting, matching the reference image: a technician's hands connect a multi-pin D-sub25 cable into the rear panel of the real TASCAM Studio Bridge unit shown in the reference images, tracing the connector home with a firm, deliberate motion until it seats fully. The camera holds close on the connector and hands throughout, a slow rack-focus settling on the seated connector in the final moment. Dark background, rim-lit cable and connector. No dialogue; a distinct connector-seating click and low room tone. Preserve the Studio Bridge's real rear-panel connectors and labelling exactly as shown in the reference images."
+    },
+    {
+      "id": "broll-studiobridge-backup-preamps",
+      "unit": "studiobridge",
+      "scenario": "Backup Behind the Preamps",
+      "stage_ref": "Official TASCAM 'Working with Mic-Preamps and DAW system' diagram; Stage 4 Studio Bridge priority #2 (Hardware DAW Transport Control)",
+      "anchor_images": ["TASCAM STUDIO BRIDGE (21).jpg", "TASCAM STUDIO BRIDGE (17).jpg"],
+      "prompt": "Medium close shot, static camera, in a neutral studio rack room: a hand approaches the real TASCAM Studio Bridge unit shown in the reference images and presses its physical START/STOP transport button once, its small LCD display showing a steady tempo readout beside the button. A rack of outboard mic preamps sits blurred just behind the unit, in soft focus. Clean, even studio lighting. No dialogue; a single soft transport-button click and low rack-room hum. Preserve the Studio Bridge's real transport section, LCD display and labelling exactly as shown in the reference images."
+    }
+  ]
+}
