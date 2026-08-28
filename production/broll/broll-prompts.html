@@ -1,0 +1,427 @@
+<title>TASCAM B-Roll Prompts</title>
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#f3f4f5; --panel:#ffffff; --panel-2:#ececee; --line:#dcdfe2; --line-strong:#c7ccd1;
+    --ink:#14171b; --ink-dim:#5b6570; --ink-faint:#8992a0;
+    --amber:#b5751f; --amber-ink:#7a4f14; --signal:#1f9463; --signal-bg:#e3f5ec;
+    --chip-bg:#eef0f2; --shadow: 0 1px 2px rgba(20,23,27,.06), 0 8px 24px rgba(20,23,27,.05);
+    --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0b0d10; --panel:#14171b; --panel-2:#1b1f24; --line:#262b31; --line-strong:#333a42;
+      --ink:#f1f4f7; --ink-dim:#9aa4b0; --ink-faint:#6b7580;
+      --amber:#e8a33d; --amber-ink:#f4c477; --signal:#3dd68c; --signal-bg:#123024;
+      --chip-bg:#1e2329; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0b0d10; --panel:#14171b; --panel-2:#1b1f24; --line:#262b31; --line-strong:#333a42;
+    --ink:#f1f4f7; --ink-dim:#9aa4b0; --ink-faint:#6b7580;
+    --amber:#e8a33d; --amber-ink:#f4c477; --signal:#3dd68c; --signal-bg:#123024;
+    --chip-bg:#1e2329; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink); margin:0;
+    font-family:'Inter',ui-sans-serif,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Roboto Mono',ui-monospace,monospace;}
+
+  a{color:inherit;}
+
+  .shell{max-width:1180px; margin:0 auto; padding:0 28px 96px;}
+
+  /* ---------- header ---------- */
+  header.top{
+    padding:56px 28px 40px; border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, var(--panel-2) 0%, var(--bg) 100%);
+  }
+  header.top .inner{max-width:1180px; margin:0 auto;}
+  .eyebrow{
+    font-family:'Roboto Mono'; font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--amber); font-weight:600; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);}
+  h1{
+    font-size:clamp(30px,4vw,44px); line-height:1.05; letter-spacing:-.02em; margin:14px 0 16px;
+    text-wrap:balance; font-weight:800;
+  }
+  header.top p.lede{
+    max-width:64ch; color:var(--ink-dim); font-size:16px; line-height:1.65; margin:0 0 28px;
+  }
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat{
+    display:flex; flex-direction:column; gap:2px; padding:12px 16px;
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    min-width:128px;
+  }
+  .stat .n{font-family:'Roboto Mono'; font-size:20px; font-weight:700; font-variant-numeric:tabular-nums;}
+  .stat .l{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint);}
+
+  /* ---------- how-to panel ---------- */
+  .howto{
+    margin:36px 0 8px; padding:22px 24px; background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); box-shadow:var(--shadow);
+  }
+  .howto h2{
+    font-family:'Roboto Mono'; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 14px; font-weight:600;
+  }
+  .howto ol{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:9px;}
+  .howto li{font-size:14.5px; line-height:1.6; color:var(--ink);}
+  .howto li b{color:var(--ink); font-weight:600;}
+  .howto .settings{
+    margin-top:16px; padding-top:16px; border-top:1px dashed var(--line);
+    display:flex; flex-wrap:wrap; gap:8px 20px; font-family:'Roboto Mono'; font-size:12.5px; color:var(--ink-dim);
+  }
+  .howto .settings span b{color:var(--ink);}
+
+  /* ---------- layout ---------- */
+  .layout{display:grid; grid-template-columns:232px 1fr; gap:40px; margin-top:40px; align-items:start;}
+  @media (max-width:880px){ .layout{grid-template-columns:1fr;} }
+
+  nav.index{position:sticky; top:24px; display:flex; flex-direction:column; gap:22px;}
+  @media (max-width:880px){
+    nav.index{position:static; flex-direction:row; flex-wrap:wrap; gap:8px 14px; padding-bottom:8px;}
+    nav.index .group{flex-direction:row; flex-wrap:wrap; gap:6px; align-items:baseline;}
+    nav.index .group h3{width:100%;}
+  }
+  nav.index .group{display:flex; flex-direction:column; gap:6px;}
+  nav.index .group h3{
+    font-family:'Roboto Mono'; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 2px; font-weight:600;
+  }
+  nav.index a{
+    font-size:13px; color:var(--ink-dim); text-decoration:none; padding:3px 0;
+    border-left:2px solid transparent; padding-left:10px; transition:color .15s, border-color .15s;
+  }
+  nav.index a:hover{color:var(--ink); border-left-color:var(--line-strong);}
+  nav.index a.n{font-family:'Roboto Mono'; color:var(--ink-faint); margin-right:6px;}
+
+  main{display:flex; flex-direction:column; gap:20px; min-width:0;}
+
+  .unit-heading{
+    display:flex; align-items:baseline; gap:12px; margin:36px 0 -4px;
+    padding-top:8px;
+  }
+  .unit-heading:first-child{margin-top:4px;}
+  .unit-heading h2{
+    font-size:20px; font-weight:800; margin:0; letter-spacing:-.01em;
+  }
+  .unit-heading .tier{
+    font-family:'Roboto Mono'; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--amber-ink); background:var(--panel-2); border:1px solid var(--line);
+    padding:3px 9px; border-radius:999px;
+  }
+  .unit-heading .rule{flex:1; height:1px; background:var(--line);}
+
+  /* ---------- card ---------- */
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:22px 24px 24px; box-shadow:var(--shadow); scroll-margin-top:20px;
+  }
+  .card .head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;}
+  .card .kicker{
+    font-family:'Roboto Mono'; font-size:11px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:6px;
+  }
+  .card .kicker .idx{color:var(--amber-ink); font-weight:700;}
+  .card h3{font-size:19px; margin:0 0 4px; font-weight:700; letter-spacing:-.01em;}
+  .card .stageref{font-size:13px; color:var(--ink-dim); line-height:1.5; max-width:60ch;}
+
+  .field-label{
+    font-family:'Roboto Mono'; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-faint); font-weight:600; margin:18px 0 8px;
+  }
+
+  .chips{display:flex; flex-wrap:wrap; gap:7px;}
+  .chip{
+    font-family:'Roboto Mono'; font-size:12.5px; background:var(--chip-bg); border:1px solid var(--line);
+    color:var(--ink); padding:5px 10px; border-radius:6px; white-space:nowrap;
+  }
+
+  .prompt-box{position:relative; margin-top:8px;}
+  .prompt-text{
+    margin:0; padding:16px 52px 16px 16px; background:var(--panel-2); border:1px solid var(--line);
+    border-radius:8px; font-family:'Inter'; font-size:14px; line-height:1.65; color:var(--ink);
+    white-space:pre-wrap; word-wrap:break-word;
+  }
+  .copy-btn{
+    position:absolute; top:10px; right:10px; display:flex; align-items:center; gap:6px;
+    font-family:'Roboto Mono'; font-size:11.5px; letter-spacing:.03em; font-weight:600;
+    background:var(--panel); color:var(--ink-dim); border:1px solid var(--line-strong);
+    border-radius:6px; padding:6px 10px; cursor:pointer; transition:background .15s, color .15s, border-color .15s;
+  }
+  .copy-btn:hover{color:var(--ink); border-color:var(--ink-faint);}
+  .copy-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .copy-btn svg{width:13px; height:13px; flex:none;}
+  .copy-btn.copied{background:var(--signal-bg); color:var(--signal); border-color:var(--signal);}
+
+  footer{
+    max-width:1180px; margin:64px auto 0; padding:24px 28px 0; border-top:1px solid var(--line);
+    font-size:12.5px; color:var(--ink-faint); line-height:1.6;
+  }
+
+  [hidden]{display:none!important;}
+</style>
+
+<header class="top">
+  <div class="inner">
+    <div class="eyebrow"><span class="dot"></span>TASCAM MODEL SERIES &amp; STUDIO BRIDGE</div>
+    <h1>Real-Image-Anchored B-Roll — 12 Prompts for Gemini</h1>
+    <p class="lede">
+      The prior 17 text-only clips described deliberately generic, unbranded hardware and are
+      discontinued outright. Each prompt below is built around named real TASCAM product photographs
+      already sitting in the repo — attach the exact files listed, then paste the prompt as-is. Every
+      request targets a real, distinct workflow claim the photography actually supports; nothing here
+      is padding to a round number.
+    </p>
+    <div class="stat-row">
+      <div class="stat"><span class="n mono">12</span><span class="l">clips planned</span></div>
+      <div class="stat"><span class="n mono">5</span><span class="l">units covered</span></div>
+      <div class="stat"><span class="n mono">10s</span><span class="l">each, exactly</span></div>
+      <div class="stat"><span class="n mono">16:9</span><span class="l">source aspect</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="howto">
+    <h2>How to run each one</h2>
+    <ol>
+      <li><b>Open a fresh Gemini chat</b> for each clip — don't chain them in one thread, so an earlier
+        reference image can't bleed into a later generation.</li>
+      <li><b>Attach the exact file(s)</b> named in that clip's "Attach" row — pull them straight from the
+        repo root (<span class="mono">tascam-recording-series-mixers-high-end-video/</span>).</li>
+      <li><b>Copy the prompt</b> with the button and paste it as your message alongside the attached
+        image(s). Don't edit it unless something in your own preview looks wrong.</li>
+      <li><b>Ask for a 10-second, 16:9 video</b> explicitly if your Gemini video tool exposes a
+        duration/aspect control separately from the prompt text — the wording already states it too, as
+        a fallback.</li>
+      <li><b>Save the result</b> as <span class="mono">broll-&lt;clip-id&gt;.mp4</span> (the id is printed
+        in each card's kicker line) and send it back — duration and hardware fidelity get checked against
+        the same reference photos before anything is accepted into the edit.</li>
+    </ol>
+    <div class="settings">
+      <span>Model: <b>Gemini video generation (Veo)</b></span>
+      <span>Duration: <b>10 seconds</b></span>
+      <span>Aspect: <b>16:9</b></span>
+      <span>Text/logos baked in: <b>none</b></span>
+      <span>Pricing: <b>never</b></span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="index" aria-label="Jump to clip">
+      <div class="group">
+        <h3>Model 12</h3>
+        <a href="#c1"><span class="n mono">01</span>The Fader That Writes Itself</a>
+        <a href="#c2"><span class="n mono">02</span>The Broadcast Bridge</a>
+      </div>
+      <div class="group">
+        <h3>Model 16</h3>
+        <a href="#c3"><span class="n mono">03</span>The Committed Signal</a>
+        <a href="#c4"><span class="n mono">04</span>Three Destinations, One Preamp</a>
+      </div>
+      <div class="group">
+        <h3>Model 24</h3>
+        <a href="#c5"><span class="n mono">05</span>No Computer Required</a>
+        <a href="#c6"><span class="n mono">06</span>The Multi-Pin Stage Feed</a>
+      </div>
+      <div class="group">
+        <h3>Model 2400</h3>
+        <a href="#c7"><span class="n mono">07</span>The Bus That Glues the Mix</a>
+        <a href="#c8"><span class="n mono">08</span>One Clock, Every Machine</a>
+      </div>
+      <div class="group">
+        <h3>Studio Bridge</h3>
+        <a href="#c9"><span class="n mono">09</span>The Stage Feed, Captured</a>
+        <a href="#c10"><span class="n mono">10</span>The Analog Desk, Digitized</a>
+        <a href="#c11"><span class="n mono">11</span>Bridging to the Timeline</a>
+        <a href="#c12"><span class="n mono">12</span>Backup Behind the Preamps</a>
+      </div>
+    </nav>
+
+    <main id="cards"></main>
+  </div>
+</div>
+
+<footer>
+  Sourced from <span class="mono">production/broll/SCENARIO_PLAN.md</span> and
+  <span class="mono">production/broll/GENERATION_QUEUE.json</span> in the project repository — that JSON
+  is the durable record if this page and the JSON ever drift.
+</footer>
+
+<script>
+(function(){
+  var CLIPS = [
+    {
+      n:"01", id:"c1", unit:"Model 12", tier:"Tier 1 · Sub-Compact Digital-Forward Hybrid",
+      title:"The Fader That Writes Itself",
+      stageref:"Stage 4 M12 priority #1 (HUI/MCU DAW Emulation) · Stage 2 M12 motivation (tactile control feeding digital automation)",
+      images:["TASCAM MODEL 12 (10).jpg","TASCAM MODEL 12 (14).jpg"],
+      prompt:"Using the two attached real photographs of the actual TASCAM Model 12 as your exact visual reference, reproduce its true panel colours, control layout, printed labelling and wood side trim precisely — do not simplify, restyle or generify the hardware in any way.\\n\\nMedium close shot, slight high angle, in a compact modern project studio at night. An engineer's hand rests on one physical fader on the Model 12, then pushes it upward in a single continuous, deliberate motion. In the same frame, two DAW monitor screens glow softly in the background, an automation lane visibly drawing itself in sync with the fader's exact movement as it rises. Camera holds steady with a slow push-in over the full ten seconds, staying wide enough to keep the fader hand and the automation screen together in one composition throughout. Warm practical desk lighting on the console, the two screens the only cool light source in the room. No dialogue — a faint fader-friction sound and soft room tone only.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"02", id:"c2", unit:"Model 12", tier:"Tier 1 · Sub-Compact Digital-Forward Hybrid",
+      title:"The Broadcast Bridge",
+      stageref:"Stage 4 M12 priority #2 (TRRS Mix-Minus) · anchored on TASCAM's own camera-to-encoder workflow diagram",
+      images:["TASCAM MODEL 12 (8).jpg"],
+      prompt:"Using the attached real TASCAM workflow diagram as your ground truth for the equipment and the exact signal path, render it as a live-action scene rather than a diagram: a real Model 12 console, matching the diagram's own labelling and layout, physically connected the way the diagram shows.\\n\\nMedium wide shot in a small streaming/broadcast setup. A camera on a tripod feeds an XLR cable down to the real Model 12 console; a presenter wearing headphones speaks silently into a microphone connected to it, while a small streaming encoder box sits just beyond the console, its status LED glowing steady. The camera performs one slow, continuous lateral track — starting on the camera, moving across the console, ending on the encoder — visually tracing the exact path the reference diagram describes (camera into the Model 12, its main output feeding the encoder, a delay-monitor path returning through the headphones) without any diagram, arrow, or label ever appearing on screen. Clean, even studio lighting throughout. No dialogue — ambient room tone only.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"03", id:"c3", unit:"Model 16", tier:"Tier 2 · Classic Analog-Forward Hybrid",
+      title:"The Committed Signal",
+      stageref:"Stage 2 M16/M24 motivation — committing to EQ/compression in the analog domain before A/D conversion",
+      images:["TASCAM MODEL 16 (5).jpg","TASCAM MODEL 16 (9).jpg"],
+      prompt:"Using the two attached real photographs of the actual TASCAM Model 16 as your exact visual reference, reproduce its true gold control-panel finish, wood trim, knob colours and printed labelling precisely — do not simplify, restyle or generify the hardware in any way.\\n\\nHandheld-steadied medium shot at a live show. A sound engineer stands over a flight-cased Model 16 console mid-set, turning a gold-panel EQ knob with two fingers, a band performing softly out of focus behind. Blue and amber stage wash lighting throughout. The camera holds close on the hand and knob for roughly the first half of the shot, then eases back slightly to reveal the performing band on stage as the motion completes. No dialogue — live-room ambience and a faint band performance audible underneath, low in the mix.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"04", id:"c4", unit:"Model 16", tier:"Tier 2 · Classic Analog-Forward Hybrid",
+      title:"Three Destinations, One Preamp",
+      stageref:"Stage 4 M16 priority #1 (Tri-Path Signal Splitting) — the physical hardware behind the Tri-Path Splitter motion graphic",
+      images:["TASCAM MODEL 16 (21).jpg","TASCAM MODEL 16 (11).jpg"],
+      prompt:"Using the two attached real photographs of the actual TASCAM Model 16 as your exact visual reference, reproduce its true knob colours, channel-strip layout and printed labelling precisely — do not simplify, restyle or generify the hardware in any way.\\n\\nTop-down macro shot, one slow and continuous lateral dolly across the full channel-strip array of the Model 16. Rows of colour-coded knobs and faders pass beneath the camera in sharp focus, a shallow depth of field keeping only one channel crisp at any moment as the camera glides past. Clean, even studio lighting, no people in frame. The movement is smooth and mechanical, the same channel strip that a single incoming signal would travel down. No dialogue — a low electrical hum and faint studio room tone only.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"05", id:"c5", unit:"Model 24", tier:"Tier 2 · Classic Analog-Forward Hybrid",
+      title:"No Computer Required",
+      stageref:"Stage 4 M24 priority #1 (24-Track Standalone SDXC Engine) · Stage 2 M24 motivation (touring reliability, zero crash risk)",
+      images:["TASCAM MODEL 24 CASE STUDY (2).jpg"],
+      prompt:"Using the attached real photograph of an actual TASCAM Model 24 in use as your exact visual reference, reproduce its true panel layout, finish and printed labelling precisely — do not simplify, restyle or generify the hardware in any way. Match the room's own natural light and rug-floor setting shown in the reference photograph.\\n\\nMedium wide documentary-style shot in a converted loft studio with a large rug and natural window light. A full band — bassist, drummer, second guitarist and vocalist — performs together while an engineer, seated at a rack-mounted Model 24 console, quietly rides two faders without looking at any screen. No laptop is present or being operated anywhere in the frame. Camera holds a static wide frame for roughly the first half of the shot, then a slow, barely-perceptible push-in toward the console for the second half. Natural daylight throughout, no artificial colour cast. No dialogue — the band's live performance is audible at low, ambient volume.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"06", id:"c6", unit:"Model 24", tier:"Tier 2 · Classic Analog-Forward Hybrid",
+      title:"The Multi-Pin Stage Feed",
+      stageref:"Stage 2 M24 motivation — touring reliability and dense stage I/O",
+      images:["TASCAM MODEL 24 (13).jpg","TASCAM MODEL 24 (15).jpg","TASCAM MODEL 24 (18).jpg"],
+      prompt:"Using the three attached real photographs of the actual TASCAM Model 24 backstage as your exact visual reference, reproduce its true rear-panel connectors and front-panel layout precisely — do not simplify, restyle or generify the hardware in any way. Match the blue and violet stage lighting shown in the reference photographs.\\n\\nClose handheld-steadied shot backstage under blue and violet stage wash. A technician's hands connect a dense multi-channel cable snake into the rear panel of the Model 24 console. On the same continuous motion, the shot carries forward to a second engineer's hand reaching across the front panel to press a channel mute button mid-performance, a laptop showing live input meters resting just out of focus beside the desk. Stage haze visible in the air, cool rim lighting throughout. No dialogue — distant live-band audio and a single faint electrical-connector click.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"07", id:"c7", unit:"Model 2400", tier:"Tier 3 · Advanced Flagship Hybrid",
+      title:"The Bus That Glues the Mix",
+      stageref:"Stage 4 M2400 priority #1 (24-Channel Analog Summing, Master Bus Processor)",
+      images:["TASCAM MODEL 2400 (9).jpg"],
+      prompt:"Using the attached real photograph of the actual TASCAM Model 2400's Master Bus Processor section as your exact visual reference, reproduce its true knob labels, layout and gold panel finish precisely — do not add or omit a single control, and do not simplify, restyle or generify the hardware in any way.\\n\\nMacro shot, one slow and continuous push-in on the Master Bus Processor section of the Model 2400 console. A hand's fingers adjust the THRESH knob first, then move without cutting to ATTACK and MAKEUP in one unbroken motion, the section's labelled buttons and gold panel finish sharp and legible throughout. Neutral studio lighting, the dark background falling off softly behind the panel. No dialogue — a low mix-bus hum and faint knob-turn friction only.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"08", id:"c8", unit:"Model 2400", tier:"Tier 3 · Advanced Flagship Hybrid",
+      title:"One Clock, Every Machine",
+      stageref:"Stage 4 M2400 priority #2 (Integrated MIDI/MTC/SPP Clocking) — the physical hardware behind the Timecode Synchronization Pulse graphic",
+      images:["TASCAM MODEL 2400 (10).jpg"],
+      prompt:"Using the attached real photograph of the actual TASCAM Model 2400 rear panel as your exact visual reference, reproduce its true labelling and connector layout precisely — MAIN OUTPUT, MAIN SEND/RETURN, CONTROL ROOM, AUX OUTPUT, SUB OUTPUT, CLICK/FOOTSWITCH/MIDI — exactly as shown, with nothing added or omitted.\\n\\nClose macro shot, static camera, a slow rack-focus travelling from the console's rear-panel MAIN OUTPUT jacks toward the MIDI port further along the same panel. A thin cable is already seated in the MIDI port; the focus pull settles on it as the shot ends, sharp and centred. Cool, even studio lighting, the background falling into soft darkness. No dialogue — a faint, steady clock-tick sound under low room tone.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"09", id:"c9", unit:"Studio Bridge", tier:"Tier 4 · Transparent Digital Bridge",
+      title:"The Stage Feed, Captured",
+      stageref:"TASCAM's own &ldquo;Multi-track live recording&rdquo; workflow diagram",
+      images:["TASCAM STUDIO BRIDGE (18).jpg","TASCAM STUDIO BRIDGE (13).jpg"],
+      prompt:"Using the attached official TASCAM workflow diagram and the attached real photograph of a live tracking session as your combined visual reference, render the diagram's signal path as a live-action scene: a real Studio Bridge unit, matching both reference images' panel layout and finish exactly, deployed the way the diagram describes.\\n\\nMedium wide documentary shot in a sunlit loft studio. A full band performs — drummer, keyboardist, vocalist on a handheld mic — while in the foreground an engineer, seen from behind, sits at a rack containing the Studio Bridge unit, hands resting near its transport buttons. No computer screen is visible anywhere in the frame. Camera holds a static wide shot for roughly the first three-quarters of the clip, then a slow, minimal drift toward the rack in the final seconds. Natural window light throughout, no artificial colour cast. No dialogue — the band's live performance audible at low ambient volume.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"10", id:"c10", unit:"Studio Bridge", tier:"Tier 4 · Transparent Digital Bridge",
+      title:"The Analog Desk, Digitized",
+      stageref:"TASCAM's own &ldquo;Working with DAW-less system&rdquo; diagram · Stage 4 priority #1 (DB25 Line I/O)",
+      images:["TASCAM STUDIO BRIDGE (20).jpg","TASCAM STUDIO BRIDGE (9).jpg"],
+      prompt:"Using the attached official TASCAM DAW-less workflow diagram and the attached real overhead photograph as your combined visual reference, reproduce the exact real console and Studio Bridge hardware, their relative mounting position, and both units' panel finishes precisely.\\n\\nHigh overhead shot, static camera looking straight down at a large vintage analog mixing console with a Studio Bridge unit mounted above its meter bridge. An engineer's hand rests on one of the console's own faders below, making a small adjustment, while the Studio Bridge's status LEDs glow steadily above. No laptop and no computer screen appear anywhere in the frame. The camera holds the overhead angle throughout with only a barely-perceptible slow drift. Warm practical room lighting mixed with cool meter-glow from the Studio Bridge itself. No dialogue — a soft analog-console hum and a faint fader-movement sound only.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"11", id:"c11", unit:"Studio Bridge", tier:"Tier 4 · Transparent Digital Bridge",
+      title:"Bridging to the Timeline",
+      stageref:"TASCAM's own &ldquo;Working with DAW system&rdquo; diagram",
+      images:["TASCAM STUDIO BRIDGE (19).jpg","TASCAM STUDIO BRIDGE (14).jpg"],
+      prompt:"Using the attached official TASCAM DAW-connection workflow diagram and the attached real cable-connection photograph as your combined visual reference, reproduce the Studio Bridge's true rear-panel connectors and labelling precisely — do not simplify, restyle or generify the hardware in any way.\\n\\nClose handheld-steadied shot under cool blue accent lighting. A technician's hands connect a multi-pin D-sub25 cable into the rear panel of the Studio Bridge unit, tracing the connector home with a firm, deliberate motion until it seats fully. The camera holds close on the connector and hands throughout, a slow rack-focus settling on the seated connector in the final moment of the shot. Dark background, the cable and connector rim-lit. No dialogue — a distinct connector-seating click and low room tone only.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    },
+    {
+      n:"12", id:"c12", unit:"Studio Bridge", tier:"Tier 4 · Transparent Digital Bridge",
+      title:"Backup Behind the Preamps",
+      stageref:"TASCAM's own &ldquo;Working with Mic-Preamps and DAW system&rdquo; diagram · Stage 4 priority #2 (Hardware DAW Transport Control)",
+      images:["TASCAM STUDIO BRIDGE (21).jpg","TASCAM STUDIO BRIDGE (17).jpg"],
+      prompt:"Using the attached official TASCAM mic-preamp workflow diagram and the attached real transport-control photograph as your combined visual reference, reproduce the Studio Bridge's true transport section, LCD display and labelling precisely — do not simplify, restyle or generify the hardware in any way.\\n\\nMedium close shot, static camera, in a neutral studio rack room. A hand approaches the Studio Bridge unit and presses its physical START/STOP transport button once, its small LCD display showing a steady tempo readout beside the button. A rack of outboard mic preamps sits just behind the unit, softly out of focus. Clean, even studio lighting throughout. No dialogue — a single soft transport-button click and a low rack-room hum only.\\n\\nGenerate exactly a 10-second clip in 16:9 widescreen. Do not add any on-screen text, captions, subtitles, watermark, extra logos, or pricing of any kind — the frame should contain only the physical scene described above."
+    }
+  ];
+
+  var UNIT_ORDER = ["Model 12","Model 16","Model 24","Model 2400","Studio Bridge"];
+
+  var main = document.getElementById("cards");
+  var lastUnit = null;
+
+  CLIPS.forEach(function(c){
+    if(c.unit !== lastUnit){
+      var h = document.createElement("div");
+      h.className = "unit-heading";
+      h.innerHTML = '<h2>' + c.unit + '</h2><span class="tier">' + c.tier + '</span><span class="rule"></span>';
+      main.appendChild(h);
+      lastUnit = c.unit;
+    }
+
+    var card = document.createElement("article");
+    card.className = "card";
+    card.id = c.id;
+
+    var chips = c.images.map(function(f){
+      return '<span class="chip">' + f.replace(/&/g,"&amp;").replace(/</g,"&lt;") + '</span>';
+    }).join("");
+
+    card.innerHTML =
+      '<div class="head">' +
+        '<div>' +
+          '<div class="kicker"><span class="idx">' + c.n + '</span> &middot; broll-' + c.id.replace('c','') + '-clip &middot; ' + c.unit + '</div>' +
+          '<h3>' + c.title + '</h3>' +
+          '<div class="stageref">' + c.stageref + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="field-label">Attach these ' + (c.images.length > 1 ? c.images.length + ' images' : '1 image') + '</div>' +
+      '<div class="chips">' + chips + '</div>' +
+      '<div class="field-label">Prompt to paste</div>' +
+      '<div class="prompt-box">' +
+        '<pre class="prompt-text"></pre>' +
+        '<button class="copy-btn" type="button">' +
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.5"/><path d="M2.5 10.5V3a1 1 0 0 1 1-1H10"/></svg>' +
+          '<span class="label">Copy</span>' +
+        '</button>' +
+      '</div>';
+
+    // set via textContent, not innerHTML, so the prompt's own characters never get parsed as markup
+    card.querySelector(".prompt-text").textContent = c.prompt.replace(/\\n/g, "\n");
+
+    var btn = card.querySelector(".copy-btn");
+    btn.addEventListener("click", function(){
+      var text = card.querySelector(".prompt-text").textContent;
+      var done = function(){
+        btn.classList.add("copied");
+        btn.querySelector(".label").textContent = "Copied";
+        setTimeout(function(){
+          btn.classList.remove("copied");
+          btn.querySelector(".label").textContent = "Copy";
+        }, 1600);
+      };
+      try{
+        navigator.clipboard.writeText(text).then(done).catch(function(){ fallbackCopy(text, done); });
+      }catch(e){
+        fallbackCopy(text, done);
+      }
+    });
+
+    function fallbackCopy(text, done){
+      try{
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        done();
+      }catch(e){ /* clipboard truly unavailable; text remains selectable in the box */ }
+    }
+
+    main.appendChild(card);
+  });
+})();
+</script>
