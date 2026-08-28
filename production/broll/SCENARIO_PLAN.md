@@ -58,7 +58,7 @@ in the analog domain before the signal reaches the A/D converter.
    top-down pass across the channel-strip array — the physical hardware whose signal
    the coded Tri-Path Splitter graphic (Stage 6) abstracts: one preamp, three
    simultaneous paths.
-   Anchors: `TASCAM MODEL 16 (8).jpg` [= source `(21).jpg`], `TASCAM MODEL 16 (11).jpg`
+   Anchors: `TASCAM MODEL 16 (8).jpg`, `TASCAM MODEL 16 (11).jpg`
 
 ## Model 24 — Classic Analog-Forward Hybrid
 
