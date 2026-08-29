@@ -98,13 +98,21 @@ export function auditCadence(
   }
   maxGap = Math.max(maxGap, total - cursor);
 
-  // Position discipline, per mark.
+  // POSITION DISCIPLINE, PER MARK — measured over PLACED forms only.
+  //
+  // Section 10.2 is about marks that sit pinned in one slot. The "beat" and
+  // "outro" forms are full-frame composed moments whose mark is centred by
+  // layout, not by a placement choice — so counting them here would report a
+  // brand beat running into the closing block as a mark that "failed to move",
+  // which is the opposite of what happened. They still count as PRESENCE for
+  // the gap check above; they just are not placements.
+  const placed = abs.filter((a) => a.form === "mark" || a.form === "third");
   const slotCount: Record<BrandKey, Record<string, number>> = {
     shivansh: {}, tascam: {},
   };
   let consecutiveRepeats = 0;
   for (const key of ["shivansh", "tascam"] as BrandKey[]) {
-    const seq = abs.filter((a) => a.brand === key);
+    const seq = placed.filter((a) => a.brand === key);
     seq.forEach((a, i) => {
       slotCount[key][a.pos] = (slotCount[key][a.pos] ?? 0) + 1;
       if (i > 0 && seq[i - 1].pos === a.pos) consecutiveRepeats++;
@@ -112,7 +120,7 @@ export function auditCadence(
   }
   const slotOveruse: string[] = [];
   for (const key of ["shivansh", "tascam"] as BrandKey[]) {
-    const n = abs.filter((a) => a.brand === key).length;
+    const n = placed.filter((a) => a.brand === key).length;
     const cap = Math.max(2, Math.ceil(n / 3));
     for (const [pos, c] of Object.entries(slotCount[key])) {
       if (c > cap) slotOveruse.push(`${key} uses "${pos}" ${c}x (cap ${cap})`);

@@ -163,3 +163,15 @@ public/video/
 # Safety-net project zip — keep it tracked (it's a deliverable, not a build
 # artifact); everything else in out/ stays ignored except the final renders.
 !out/tascam-project-source.zip
+
+# --- build/ (the current production) ---------------------------------------
+# Generated mirrors and outputs. Everything here is reproducible from
+# build/assets + build/shared via scripts/sync.mjs and a Remotion render, so
+# none of it belongs in history — and the music beds alone are 263 MB of PCM.
+build/*/public/
+build/*/src/shared/
+build/*/out/qa/
+build/assets/audio/*.wav
+build/assets/clips/
+build/assets/img/
+build/assets/video/

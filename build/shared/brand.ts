@@ -36,6 +36,22 @@ export const CONTACT = {
 
 export type ContactKey = keyof typeof CONTACT;
 
+/**
+ * The mark that identifies each contact detail on screen, per the user's
+ * supplied icon set. The three numbers are all reachable on WhatsApp, so they
+ * share that mark; CONTACT_LABEL below stays as the accessible/alt wording and
+ * as the fallback wherever a row is too small to carry an icon.
+ */
+export const CONTACT_ICON = {
+  website: "website",
+  instagram: "instagram",
+  facebook: "facebook",
+  youtube: "youtube",
+  phone0: "whatsapp",
+  phone1: "whatsapp",
+  phone2: "whatsapp",
+} as const satisfies Record<keyof typeof CONTACT, string>;
+
 /** Human label shown beside a rotating contact detail. */
 export const CONTACT_LABEL: Record<ContactKey, string> = {
   website: "Web",
