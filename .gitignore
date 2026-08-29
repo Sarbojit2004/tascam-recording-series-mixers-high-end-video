@@ -182,3 +182,9 @@ build/longform/out/tascam-model-series-longform.mp4
 build/*/out/verify/
 build/*/out/render-*.log
 build/out-remix.log
+
+# Compressed copies made only to fit a chat/upload size limit. They are lossy
+# re-encodes (CRF 26) of masters that are already committed at CRF 18, so
+# committing them would put a visibly worse duplicate of every deliverable in
+# the repo for someone to pick up by mistake. Regenerate on demand with ffmpeg.
+build/preview/
