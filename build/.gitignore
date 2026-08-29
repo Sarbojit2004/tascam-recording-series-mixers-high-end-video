@@ -1,0 +1,23 @@
+node_modules/
+.remotion/
+
+# Prepared asset mirrors — all derived, all regenerable:
+#   python3 scripts/prep_logos.py       both logos, white plate stripped
+#   python3 scripts/prep_clips.py       16 B-rolls, Gemini watermark cropped
+#   python3 scripts/prepare_assets.py   101 real images + 4 videos, classified
+#   python3 scripts/knockout.py         light-ground shots keyed to cutout
+#   python3 scripts/build_music.py      4 stem-voiced beds at exact runtimes
+#   python3 scripts/synth_sfx.py        9 Layer 2 sounds, synthesized fresh
+assets/img/
+assets/logo/
+assets/clips/
+assets/video/
+assets/audio/
+assets/fonts/
+
+# Synced copies of shared/ and the prepared assets.
+*/src/shared/
+*/public/
+
+*/out/qa/
+*/out/*.log
