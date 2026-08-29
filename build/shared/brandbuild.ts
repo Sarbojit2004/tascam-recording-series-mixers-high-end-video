@@ -43,21 +43,20 @@ import { frames, type Beat } from "./beat.ts";
  * appearance used, so two consecutive marks can never share one. The audit
  * still checks all of it independently.
  */
-const SAFE_SLOTS: Record<string, Pos[]> = {
+const SAFE_SLOTS_LANDSCAPE: Record<string, Pos[]> = {
   // text left, vertically centred — the whole right side and the bottom is free
   cold:      ["tr", "br", "cr", "bc"],
   statement: ["br", "tr", "cr", "bc"],
   // centred copy over a held-back clip — only the corners are quiet
   editorial: ["tl", "br", "tr", "bl"],
-  // landscape puts the photograph right, copy left of it; bottom-left is open
+  // the photograph takes the right column, copy the left; bottom-left is open
   macro:     ["bl", "tl", "bc", "tr"],
   // wide plate on top, copy and one callout along the bottom
   sweep:     ["tr", "tl", "cr", "cl"],
   // chip and name top-left, plate centre, three callouts along the bottom
   hero:      ["tr", "cr", "cl"],
-  // title top-left, grid below it
   montage:   ["tr", "cr", "cl"],
-  // landscape: plate left, spec list right — the space under the plate is free
+  // plate left, spec list right — the space under the plate is free
   specs:     ["bl", "bc", "tr"],
   // title top-left, bars stacked beneath spanning the width
   compare:   ["tr", "br", "cr"],
@@ -65,13 +64,51 @@ const SAFE_SLOTS: Record<string, Pos[]> = {
   broll:     ["tr", "tl", "tc", "cr"],
   // title top, video centred and letterbox-free
   realvideo: ["bl", "br", "bc", "tr"],
-  // title top-left, diagram filling the rest
-  // Landscape leaves the top-right and the sides free; portrait leaves only the
-  // band ConceptFrame reserves at the foot. Listing bottom slots first means
-  // the walk starts where BOTH orientations are safe.
+  // Title top-left, diagram filling the rest. Bottom-first here as well as in
+  // portrait: landscape has room in the top-right, but keeping one order across
+  // both orientations means the concept beats brand the same way in the
+  // long-form and in the reel that reuses them — which a viewer who watches
+  // both does notice.
   tripath:   ["br", "bl", "tr", "cr"],
   db25:      ["br", "bl", "tr", "cr"],
   timecode:  ["br", "bl", "tr", "cr"],
+};
+
+/**
+ * PORTRAIT NEEDS ITS OWN TABLE, not a shared one.
+ *
+ * The two canvases do not leave the same gaps. A landscape headline has 1808 px
+ * of width and rarely reaches the right edge, so the top-right corner is the
+ * reliable free slot; the same headline in portrait has 952 px, wraps, and runs
+ * straight under a mark placed there — which is what put the Shivansh logo
+ * through the word THEM on Reel 2's comparison beat. Rather than trim headlines
+ * to suit the branding, each orientation declares what its own layouts actually
+ * leave open. Kinds that carry a lower-third instead of a bare mark (cold,
+ * statement, editorial) are unaffected either way, since a third is anchored to
+ * the bottom band regardless of slot.
+ */
+const SAFE_SLOTS_PORTRAIT: Record<string, Pos[]> = {
+  cold:      ["tr", "tl", "tc", "br"],
+  statement: ["br", "bc", "tr", "cr"],
+  editorial: ["tr", "tl", "br", "bl"],
+  // image occupies the middle band, copy and callouts the lower third
+  macro:     ["tr", "tl", "tc"],
+  // wide plate high, copy and a callout beneath it
+  sweep:     ["tr", "tl"],
+  // short unit name top-left; the sides sit over the plate, which is fine
+  hero:      ["tr", "cr", "cl"],
+  montage:   ["tr", "cr", "cl"],
+  // title, plate, then the spec list — everything below the list is free
+  specs:     ["br", "bc", "tr"],
+  // the title can span the full width here, so the top-right is NOT free
+  compare:   ["br", "bc", "cr"],
+  // full-bleed clip with the headline in the bottom gradient
+  broll:     ["tr", "tl", "tc"],
+  realvideo: ["br", "bl", "bc"],
+  // ConceptFrame reserves 120px at the foot precisely for these
+  tripath:   ["br", "bl"],
+  db25:      ["br", "bl"],
+  timecode:  ["br", "bl"],
 };
 
 /**
@@ -88,9 +125,10 @@ const SAFE_SLOTS: Record<string, Pos[]> = {
  * order, so the first choice on any beat is still the best-looking one.
  */
 function pickSlot(
-  kind: string, used: Map<Pos, number>, last: Pos | null,
+  kind: string, table: Record<string, Pos[]>,
+  used: Map<Pos, number>, last: Pos | null,
 ): Pos {
-  const opts = SAFE_SLOTS[kind] ?? ["tr", "br", "tl", "bl"];
+  const opts = table[kind] ?? ["tr", "br", "tl", "bl"];
   const eligible = opts.filter((o) => o !== last);
   const pool = eligible.length ? eligible : opts;
   let best = pool[0];
@@ -122,11 +160,17 @@ export interface PlanOptions {
    * all of it — rather than all three showing the website and the first number.
    */
   contactFrom?: number;
+  /**
+   * Which canvas this deliverable renders on. Decides which slot table applies:
+   * the two orientations do not leave the same gaps, so they cannot share one.
+   */
+  portrait?: boolean;
 }
 
 export function buildPlan(
   BEATS: Beat[],
-  { everyBeat = false, tascamEvery = 5, contactFrom = 0 }: PlanOptions = {},
+  { everyBeat = false, tascamEvery = 5, contactFrom = 0,
+    portrait = false }: PlanOptions = {},
 ): BrandAppearance[] {
   const plan: BrandAppearance[] = [];
   let sh = 0;             // Shivansh counter — drives the slot and contact walks
@@ -137,6 +181,7 @@ export function buildPlan(
   let last: Pos | null = null;
   let lastTa: Pos | null = null;
   // Per-brand slot usage, so each mark spreads across its own free slots.
+  const TABLE = portrait ? SAFE_SLOTS_PORTRAIT : SAFE_SLOTS_LANDSCAPE;
   const shUsed = new Map<Pos, number>();
   const taUsed = new Map<Pos, number>();
   // Advanced only when an appearance actually CARRIES a contact detail. Keying
@@ -175,7 +220,7 @@ export function buildPlan(
     const carries = everyBeat || i % 2 === 0 || b.sec >= 14;
     if (!carries) return;
 
-    const pos = pickSlot(b.kind, shUsed, last);
+    const pos = pickSlot(b.kind, TABLE, shUsed, last);
     last = pos;
     // The FORM varies as well as the coordinates: every beat whose bottom band
     // is free carries a lower-third, everything else a bare mark. Gating that
@@ -203,10 +248,10 @@ export function buildPlan(
       // Excludes BOTH the Shivansh slot in this beat and the previous TASCAM
       // slot, so the two marks never share a frame position and the TASCAM
       // sequence never repeats itself.
-      const avail = (SAFE_SLOTS[b.kind] ?? ["tr", "br", "tl", "bl"])
+      const avail = (TABLE[b.kind] ?? ["tr", "br", "tl", "bl"])
         .filter((o) => o !== pos && o !== lastTa);
       const pool = avail.length ? avail
-        : (SAFE_SLOTS[b.kind] ?? ["tr"]).filter((o) => o !== pos);
+        : (TABLE[b.kind] ?? ["tr"]).filter((o) => o !== pos);
       let tp = pool[0];
       for (const o of pool) if ((taUsed.get(o) ?? 0) < (taUsed.get(tp) ?? 0)) tp = o;
       taUsed.set(tp, (taUsed.get(tp) ?? 0) + 1);

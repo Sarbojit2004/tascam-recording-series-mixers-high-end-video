@@ -443,7 +443,18 @@ const Compare: React.FC<{ b: Beat; dur: number }> = ({ b, dur }) => {
   const max = scalable ? Math.max(...nums) : 1;
 
   const rowH = F.portrait ? 128 : 118;
-  const top = F.padTop + (F.portrait ? 190 : 168);
+  /**
+   * The row stack is CENTRED in the space under the title rather than pinned
+   * beneath it. A two-unit comparison pinned to the top of a 1520 px portrait
+   * band leaves two-thirds of the frame empty below it, which reads as a
+   * rendering fault rather than as space. Centring makes a two-row and a
+   * five-row comparison both sit deliberately.
+   */
+  const titleBand = F.portrait ? 190 : 168;
+  const stackH = units.length * rowH;
+  const room = F.contentH - titleBand;
+  const top = F.padTop + titleBand +
+    (F.portrait ? Math.max(0, Math.round((room - stackH) * 0.42)) : 0);
   const barW = F.contentW * (F.portrait ? 0.60 : 0.52);
 
   return (

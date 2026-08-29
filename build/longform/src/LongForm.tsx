@@ -22,6 +22,7 @@ import { SPACE } from "./shared/theme.ts";
 import { BEATS } from "./schedule.ts";
 import { PLAN } from "./brand-longform.ts";
 import { SFX_FOR } from "./shared/sfx.ts";
+import { bedGain, sfxGain } from "./shared/mix.ts";
 
 const PHASES = [...new Set(BEATS.map((b) => b.phase ?? ""))];
 
@@ -29,7 +30,7 @@ export const LongForm: React.FC = () => {
   const st = starts(BEATS, LANDSCAPE.fps);
   return (
     <Page>
-      <Audio src={staticFile("audio/longform-music-bed.wav")} volume={0.34} />
+      <Audio src={staticFile("audio/longform-music-bed.wav")} volume={bedGain("longform")} />
 
       {BEATS.map((b, i) => {
         const dur = frames(b.sec, LANDSCAPE.fps);
@@ -50,7 +51,7 @@ export const LongForm: React.FC = () => {
             </BeatShell>
             {sfx ? (
               <Sequence from={sfx.at} durationInFrames={Math.min(dur - sfx.at, 120)}>
-                <Audio src={staticFile(`audio/sfx/${sfx.file}`)} volume={sfx.gain} />
+                <Audio src={staticFile(`audio/sfx/${sfx.file}`)} volume={sfxGain(sfx.gain, "longform")} />
               </Sequence>
             ) : null}
           </Sequence>

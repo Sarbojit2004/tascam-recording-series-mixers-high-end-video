@@ -10,7 +10,7 @@
 import { buildPlan } from "./shared/brandbuild.ts";
 import { REEL1, REEL2, REEL3 } from "./schedules.ts";
 
-const opts = { everyBeat: true, tascamEvery: 4 };
+const opts = { everyBeat: true, tascamEvery: 4, portrait: true };
 
 // Each reel enters the twelve-entry contact rotation a third of the way further
 // along, so the three of them cover the whole set between them. Each reel's own
