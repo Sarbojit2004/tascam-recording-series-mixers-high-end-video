@@ -13,15 +13,16 @@ import { frames, starts, type Beat } from "./shared/beat.ts";
 import { Beat as BeatShell, Page } from "./shared/shell.tsx";
 import { Scene } from "./shared/scenes.tsx";
 import { SFX_FOR } from "./shared/sfx.ts";
+import { bedGain, sfxGain, type Deliverable } from "./shared/mix.ts";
 import type { BrandAppearance } from "./shared/brandplan.ts";
 
 export const Reel: React.FC<{
-  beats: Beat[]; plan: BrandAppearance[]; bed: string;
-}> = ({ beats, plan, bed }) => {
+  beats: Beat[]; plan: BrandAppearance[]; bed: string; mix: Deliverable;
+}> = ({ beats, plan, bed, mix }) => {
   const st = starts(beats, PORTRAIT.fps);
   return (
     <Page>
-      <Audio src={staticFile(`audio/${bed}`)} volume={0.34} />
+      <Audio src={staticFile(`audio/${bed}`)} volume={bedGain(mix)} />
       {beats.map((b, i) => {
         const dur = frames(b.sec, PORTRAIT.fps);
         const sfx = SFX_FOR[b.kind];
@@ -32,7 +33,7 @@ export const Reel: React.FC<{
             </BeatShell>
             {sfx ? (
               <Sequence from={sfx.at} durationInFrames={Math.min(dur - sfx.at, 120)}>
-                <Audio src={staticFile(`audio/sfx/${sfx.file}`)} volume={sfx.gain} />
+                <Audio src={staticFile(`audio/sfx/${sfx.file}`)} volume={sfxGain(sfx.gain, mix)} />
               </Sequence>
             ) : null}
           </Sequence>

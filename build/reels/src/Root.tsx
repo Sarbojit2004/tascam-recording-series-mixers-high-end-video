@@ -28,7 +28,7 @@ export const Root: React.FC = () => (
         key={k}
         id={IDS[k]}
         component={Reel}
-        defaultProps={{ beats: REELS[k], plan: PLANS[k], bed: BEDS[k] }}
+        defaultProps={{ beats: REELS[k], plan: PLANS[k], bed: BEDS[k], mix: k }}
         durationInFrames={totalFrames(REELS[k], PORTRAIT.fps)}
         fps={PORTRAIT.fps}
         width={PORTRAIT.width}
