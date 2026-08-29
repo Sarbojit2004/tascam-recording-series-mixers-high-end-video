@@ -40,9 +40,9 @@ master table. It is a Model 2400 image despite its filename and is listed under 
 | (15) | Live performance | Acoustic guitarist + vocalist + cajon player, gallery-style venue | Moderate — unit not in frame |
 | (16) | Software + hardware | Laptop showing "Model 12" mixer meter software, unit blurred foreground | Moderate |
 | (17) | Diagram | "Before / After" waveform comparison graphic | Illustration, not hardware photography |
-| (18) | Rear-panel detail | Macro of labelled I/O: 9/10, 7/8, 1–6, CLICK/FOOTSWITCH/INSERT | Strong |
+| (18) | **Rear-panel, full width** | Flat catalogue-style photo, white bg: USB-C, DC IN, STANDBY, dual MAIN OUTPUT XLR, MUSIC/TALK input, nine combo mic/line inputs (9/10–1), SUB OUTPUT, AUX 1/2, CLICK, FOOTSWITCH, MIDI OUT/IN, two INSERT jacks — every rear connector in one frame | **Excellent** — the whole rear panel, cleanly labelled |
 | (19) | Software screenshot | macOS "Model 12" driver Preferences + Mixer Settings Panel | Moderate — UI chrome, not hardware |
-| (21) | Rear-panel detail | Rear connector photo: XLR/combo jacks, CLICK/FOOTSWITCH/OUT/MIDI, INSERT | Strong |
+| (21) | Marketing composite | Corrected on re-inspection (was mislabelled "rear-panel detail" in an earlier pass): a seated singer/guitarist, headphones, mic on a stand, with a baked-in "Ultra HDDA Mic Preamp" badge overlay | Not a hardware-anchor candidate — text/badge already baked into the image itself |
 | (22) | Workflow | Person editing a waveform on-screen, unit visible bottom of frame | Moderate |
 
 ## Model 16 (16 images)
