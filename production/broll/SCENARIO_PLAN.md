@@ -14,19 +14,43 @@ beats to use the new library is scoped for after this plan's clips exist and are
 verified (Section 5 gate) — that rebuild is not part of this addendum's own
 deliverable.
 
-## Total clip count: 12
+## Total clip count: 16 (12 original + 4 extension)
 
-Not a round number, not carried over from the prior 10 or 17. It is the count of
-genuinely distinct, real-image-supported workflow claims across the five units once
-near-duplicate coverage is refused: Model 12 (2), Model 16 (2), Model 24 (2), Model
-2400 (2), Studio Bridge (4). Studio Bridge gets double the others' allocation because
-it is the only unit with four *official TASCAM workflow diagrams* — not stock lifestyle
-photography, but the manufacturer's own documentation of four genuinely different
-deployment topologies — plus Stage 7's explicit instruction that it "earns its own
-phase" rather than being folded into the console arc. Model 12/16/24/2400 each hold
-real-image support for exactly two distinct claims; a third for any of them would have
-meant reusing a visually near-identical "person at a DAW" or "engineer + laptop app"
-shot already spent on a sibling scenario, which is padding, not support.
+The original 12 were the count of genuinely distinct, real-image-supported workflow
+claims once near-duplicate coverage was refused — not a round number, not carried over
+from the prior 10 or 17: Model 12 (2), Model 16 (2), Model 24 (2), Model 2400 (2),
+Studio Bridge (4). Studio Bridge got double the others' allocation because it is the
+only unit with four *official TASCAM workflow diagrams* — the manufacturer's own
+documentation of four genuinely different deployment topologies — plus Stage 7's
+explicit instruction that it "earns its own phase."
+
+The user then asked for 4 more, sized to their own Gemini generation budget rather than
+to what the library could still support. Those 4 went to Model 12, 16, 24 and 2400 —
+one each — deliberately not to Studio Bridge, which had already spent its strongest
+material (all four diagrams, the overhead in-situ shot, the live tracking session) on
+the original 4. Each of these 4 additions is still a genuinely distinct claim with its
+own real anchor, not a repeat of a composition already spent on that unit:
+
+- **Model 12** had no rear-panel scenario at all in the original 2 (HUI automation,
+  broadcast bridge never show the back of the unit) — clip 13 fills that gap.
+- **Model 16**'s original 2 cover the analog-domain EQ decision and the physical
+  channel-strip structure; neither touches the onboard Digital Effect Processor, a real,
+  separately-documented feature — clip 14 fills that gap.
+- **Model 24**'s original 2 (full-band tracking, stage cable snake) are both
+  performance-context shots; clip 15 uses a genuinely different real photograph — a
+  hand-labelled session in progress — to make an ownership/personalisation claim
+  neither of the first two makes.
+- **Model 2400**'s original 2 (Master Bus Processor, MIDI rear panel) don't touch
+  subgrouping at all, despite it being literally half of Stage 4's #1 priority ("24-
+  Channel Analog Summing **with 4 Subgroups**") — clip 16 closes that gap with the one
+  real photograph that shows the SUB OUTPUT bus and TALKBACK section together.
+
+One correction surfaced while verifying anchors for this extension: `TASCAM MODEL 12
+(21).jpg`, cited as a rear-panel detail in the original enumeration pass, is not a rear
+panel at all — it's a marketing composite of a singer/guitarist with a baked-in "Ultra
+HDDA Mic Preamp" badge. Caught by direct re-inspection before it could anchor a
+generation request; corrected in `REAL_IMAGE_LIBRARY.md`, and clip 13 below uses
+`(18).jpg` — genuinely the full rear panel — on its own instead.
 
 ## Model 12 — Sub-Compact Digital-Forward Hybrid
 
@@ -43,6 +67,10 @@ specifically, eliminating feedback loops in bidirectional broadcast routing.
    switcher's signal reaches the Model 12; TRRS mix-minus prevents the return audio
    from looping back into the presenter's ear; XLR main out feeds a streaming encoder.
    Anchor: `TASCAM MODEL 12 (8).jpg` (the official camera→Model12→VS-R265 diagram)
+13. **`broll-model12-rear-density`** — "The Sub-Compact's Full Rear." *(extension)* A
+    static hold on the entire rear panel, then a hand plugs one XLR into MAIN OUTPUT —
+    proving how much I/O a "sub-compact" desk actually carries.
+    Anchor: `TASCAM MODEL 12 (18).jpg`
 
 ## Model 16 — Classic Analog-Forward Hybrid
 
@@ -59,6 +87,11 @@ in the analog domain before the signal reaches the A/D converter.
    the coded Tri-Path Splitter graphic (Stage 6) abstracts: one preamp, three
    simultaneous paths.
    Anchors: `TASCAM MODEL 16 (8).jpg`, `TASCAM MODEL 16 (11).jpg`
+14. **`broll-model16-effects-engine`** — "Effects Built In." *(extension)* A hand
+    scrolls the MULTI JOG wheel through the Digital Effect Processor's printed algorithm
+    list, then presses SELECT — the desk's own onboard reverb/delay engine, not an
+    outboard rack unit.
+    Anchors: `TASCAM MODEL 16 (12).jpg`, `TASCAM MODEL 16 (14).jpg`
 
 ## Model 24 — Classic Analog-Forward Hybrid
 
@@ -74,6 +107,10 @@ recording, free of software-crash risk.
    is patched into the rear panel under stage lighting; a hand reaches to mute a
    channel mid-set while a laptop nearby mirrors the levels remotely.
    Anchors: `TASCAM MODEL 24 (13).jpg`, `TASCAM MODEL 24 (15).jpg`, `TASCAM MODEL 24 (18).jpg`
+15. **`broll-model24-handwritten-session`** — "A Session, Labeled By Hand." *(extension)*
+    A high-angle hold on the fader bank's hand-written tape labels, then a hand nudges
+    one fader — a real, lived-in session rather than a showroom unit.
+    Anchor: `TASCAM MODEL 24 CASE STUDY (1).jpg`
 
 ## Model 2400 — Advanced Flagship Hybrid
 
@@ -91,6 +128,12 @@ studio's master clock in the desk itself.
    the desk's MIDI output; visually this is the real hardware the coded Timecode
    Synchronization Pulse graphic (Stage 6) abstracts into a ripple effect.
    Anchor: `TASCAM MODEL 2400 (10).jpg`
+16. **`broll-model2400-subs-talkback`** — "Every Channel Has Somewhere to Go."
+    *(extension)* A hand rides a SUB fader, then reaches to the TALKBACK section and
+    presses MAIN — the literal "4 Subgroups" half of Stage 4's #1 priority, which
+    neither of the original 2 M2400 clips shows.
+    Anchor: `TASCAM MODEL 24 CASE STUDY (4).jpg` (reclassified to Model 2400 — see
+    Section 1)
 
 ## Studio Bridge — Transparent Digital Bridge (own Stage 7 phase)
 
