@@ -25,9 +25,9 @@ import { Clip, RealVideo, Shot, fit, fitC, type Box } from "./media.tsx";
 import { ar, imageById } from "./assets.ts";
 import { UNITS, specValue, type UnitId } from "./spec.ts";
 import { DB25Injection, TimecodePulse, TriPathSplitter } from "./concepts.tsx";
-import { Outro, SceneBranding } from "./branding.tsx";
+import { ContactLayer, EndScreen } from "./branding.tsx";
 import type { Beat } from "./beat.ts";
-import type { BrandAppearance } from "./brandplan.ts";
+import type { StripAppearance } from "./contactplan.ts";
 
 /** Layout frame for the mounted canvas. */
 interface Frame {
@@ -510,6 +510,20 @@ const BRoll: React.FC<{ b: Beat; dur: number }> = ({ b, dur }) => {
       <Clip n={b.clip} orientation={F.portrait ? "port" : "land"} box={box}
             from={b.clipFrom ?? 0} rate={b.clipRate ?? 1}
             radius={0} plate={false} />
+      {/*
+        A TOP SCRIM, to match the bottom one.
+        This is the only scene that runs footage full-bleed, so it is the only
+        place a contact strip can land on a dark frame — and the B-roll here is
+        largely dark. Without this the strip's light-ground halo works against
+        it and the detail disappears into the picture. The wash is short and
+        weak: enough to seat type, not enough to look like a bar.
+      */}
+      <AbsoluteFill style={{
+        background:
+          "linear-gradient(180deg, rgba(246,248,250,0.93) 0%, " +
+          "rgba(246,248,250,0.62) 42%, rgba(246,248,250,0) 100%)",
+        height: F.portrait ? 300 : 210,
+      }} />
       {b.hero ? (
         <>
           <AbsoluteFill style={{
@@ -588,7 +602,7 @@ const ConceptFrame: React.FC<{
 // ---------------------------------------------------------------------------
 
 export const Scene: React.FC<{
-  beat: Beat; dur: number; plan: BrandAppearance[];
+  beat: Beat; dur: number; plan: StripAppearance[];
 }> = ({ beat, dur, plan }) => {
   const body = (() => {
     switch (beat.kind) {
@@ -627,15 +641,14 @@ export const Scene: React.FC<{
             )}
           </ConceptFrame>
         );
-      case "brandbeat": return null;
-      case "outro": return <Outro dur={dur} />;
+      case "outro": return <EndScreen dur={dur} />;
     }
   })();
 
   return (
     <AbsoluteFill>
       {body}
-      <SceneBranding beat={beat.id} plan={plan} />
+      <ContactLayer beat={beat.id} plan={plan} />
     </AbsoluteFill>
   );
 };

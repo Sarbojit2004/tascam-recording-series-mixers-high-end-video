@@ -2,7 +2,7 @@
 
 178s, portrait
 
-**Runtime** 02:58 (178s) · **Word count** 106 · **Average** 36 wpm
+**Runtime** 02:58 (178s) · **Word count** 112 · **Average** 38 wpm
 
 Read at a comfortable 150 wpm. Every line is budgeted to 78% of the time
 its beat occupies, so the picture always has room to breathe around the
@@ -23,8 +23,8 @@ there, and talking over it would be the mistake.
 | 01:46 | 01:59 | `r2-statement` | Both emulate HUI and MCU. Both carry MIDI timecode. Both put the same preamp in front of the same three paths. |
 | 01:59 | 02:15 | `r2-montage` | The same controls, at two scales. |
 | 02:15 | 02:24 | `r2-editorial` | So pick the size of the room. The architecture comes with either. |
-| 02:24 | 02:35 | `r2-brand` | *(silent — brandbeat)* |
-| 02:35 | 02:58 | `r2-outro` | *(silent — outro)* |
+| 02:24 | 02:35 | `r2-close` | The same architecture, at two scales. |
+| 02:35 | 02:58 | `r2-end` | *(silent — outro)* |
 
 ## Per-beat budgets
 
@@ -41,5 +41,5 @@ there, and talking over it would be the mistake.
 | `r2-statement` | 13 | 21 | 25 |
 | `r2-montage` | 16 | 6 | 31 |
 | `r2-editorial` | 9 | 12 | 17 |
-| `r2-brand` | 11 | 0 | 21 |
-| `r2-outro` | 23 | 0 | 44 |
+| `r2-close` | 11 | 6 | 21 |
+| `r2-end` | 23 | 0 | 44 |

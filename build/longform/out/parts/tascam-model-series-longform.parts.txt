@@ -1,3 +1,0 @@
-file 'tascam-model-series-longform.part00.mp4'
-file 'tascam-model-series-longform.part01.mp4'
-file 'tascam-model-series-longform.part02.mp4'

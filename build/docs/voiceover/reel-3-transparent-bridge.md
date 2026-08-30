@@ -2,7 +2,7 @@
 
 178s, portrait
 
-**Runtime** 02:58 (178s) · **Word count** 98 · **Average** 33 wpm
+**Runtime** 02:58 (178s) · **Word count** 103 · **Average** 35 wpm
 
 Read at a comfortable 150 wpm. Every line is budgeted to 78% of the time
 its beat occupies, so the picture always has room to breathe around the
@@ -23,8 +23,8 @@ there, and talking over it would be the mistake.
 | 01:51 | 02:03 | `r3-montage` | *(silent — montage)* |
 | 02:03 | 02:15 | `r3-sweep` | Two DB25 in, two DB25 out. AES59 compliant. |
 | 02:15 | 02:24 | `r3-editorial` | The link, not the source. |
-| 02:24 | 02:35 | `r3-brand` | *(silent — brandbeat)* |
-| 02:35 | 02:58 | `r3-outro` | *(silent — outro)* |
+| 02:24 | 02:35 | `r3-close` | The link, not the source. |
+| 02:35 | 02:58 | `r3-end` | *(silent — outro)* |
 
 ## Per-beat budgets
 
@@ -41,5 +41,5 @@ there, and talking over it would be the mistake.
 | `r3-montage` | 12 | 0 | 23 |
 | `r3-sweep` | 12 | 8 | 23 |
 | `r3-editorial` | 9 | 5 | 17 |
-| `r3-brand` | 11 | 0 | 21 |
-| `r3-outro` | 23 | 0 | 44 |
+| `r3-close` | 11 | 5 | 21 |
+| `r3-end` | 23 | 0 | 44 |

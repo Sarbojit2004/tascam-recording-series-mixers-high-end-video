@@ -115,7 +115,6 @@ export const VO_LONGFORM: Record<string, string> = {
     "Input count is what the larger chassis actually buys you — ten, fourteen, " +
     "twenty-two.",
   "m24-video": "",
-  "m24-case": "",
   "m24-specs":
     "Twenty-four in, twenty-two out over USB. Fifty-two watts. Ten point two " +
     "kilograms.",
@@ -176,10 +175,13 @@ export const VO_LONGFORM: Record<string, string> = {
   "close-choose":
     "DAW control in the smallest chassis: Model 12. Faders and tracks without " +
     "one: Model 16, or Model 24 for width. All of it: Model 2400.",
-  "close-brand": "",
-  "close-broll2": "",
   "close-broll": "Specified, supplied and supported by Shivansh Electronics in Kolkata.",
-  "close-outro": "",
+  // The three end screens are silent by design: the logos, the role line and
+  // the five channels are the message there, and narration over them competes
+  // with the one block a viewer is most likely to pause on.
+  "part1-end": "",
+  "part2-end": "",
+  "part3-end": "",
 };
 
 export const VO_REEL1: Record<string, string> = {
@@ -199,8 +201,8 @@ export const VO_REEL1: Record<string, string> = {
   "r1-usb":
     "What differs is the width of the paths that follow it.",
   "r1-editorial": "So choose by the destinations, not by the preamp.",
-  "r1-brand": "",
-  "r1-outro": "",
+  "r1-close": "One architecture. Four answers to it.",
+  "r1-end": "",
 };
 
 export const VO_REEL2: Record<string, string> = {
@@ -220,8 +222,8 @@ export const VO_REEL2: Record<string, string> = {
     "preamp in front of the same three paths.",
   "r2-montage": "The same controls, at two scales.",
   "r2-editorial": "So pick the size of the room. The architecture comes with either.",
-  "r2-brand": "",
-  "r2-outro": "",
+  "r2-close": "The same architecture, at two scales.",
+  "r2-end": "",
 };
 
 export const VO_REEL3: Record<string, string> = {
@@ -243,6 +245,6 @@ export const VO_REEL3: Record<string, string> = {
   "r3-montage": "",
   "r3-sweep": "Two DB25 in, two DB25 out. AES59 compliant.",
   "r3-editorial": "The link, not the source.",
-  "r3-brand": "",
-  "r3-outro": "",
+  "r3-close": "The link, not the source.",
+  "r3-end": "",
 };

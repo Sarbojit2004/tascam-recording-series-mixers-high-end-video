@@ -14,10 +14,10 @@ import { Beat as BeatShell, Page } from "./shared/shell.tsx";
 import { Scene } from "./shared/scenes.tsx";
 import { SFX_FOR } from "./shared/sfx.ts";
 import { bedGain, sfxGain, type Deliverable } from "./shared/mix.ts";
-import type { BrandAppearance } from "./shared/brandplan.ts";
+import type { StripAppearance } from "./shared/contactplan.ts";
 
 export const Reel: React.FC<{
-  beats: Beat[]; plan: BrandAppearance[]; bed: string; mix: Deliverable;
+  beats: Beat[]; plan: StripAppearance[]; bed: string; mix: Deliverable;
 }> = ({ beats, plan, bed, mix }) => {
   const st = starts(beats, PORTRAIT.fps);
   return (

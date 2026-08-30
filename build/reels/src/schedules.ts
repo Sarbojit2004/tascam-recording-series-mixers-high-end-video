@@ -62,8 +62,9 @@ export const REEL1: Beat[] = [
   { id: "r1-editorial", kind: "editorial", sec: 9, phase: "CLOSE", clip: 3,
     hero: "Choose by the destinations.",
     sub: "The preamp is the same. Count what it has to feed." },
-  { id: "r1-brand", kind: "brandbeat", sec: 11, phase: "CLOSE" },
-  { id: "r1-outro", kind: "outro", sec: 23, phase: "CLOSE" },
+  { id: "r1-close", kind: "statement", sec: 11, phase: "CLOSE",
+    label: "TASCAM MODEL SERIES", hero: "One architecture.\nFour answers." },
+  { id: "r1-end", kind: "outro", sec: 23, phase: "CLOSE" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -107,8 +108,9 @@ export const REEL2: Beat[] = [
   { id: "r2-editorial", kind: "editorial", sec: 9, phase: "CLOSE", clip: 5,
     hero: "Pick the size of the room.",
     sub: "The architecture comes with either one." },
-  { id: "r2-brand", kind: "brandbeat", sec: 11, phase: "CLOSE" },
-  { id: "r2-outro", kind: "outro", sec: 23, phase: "CLOSE" },
+  { id: "r2-close", kind: "statement", sec: 11, phase: "CLOSE",
+    label: "MODEL 2400 · MODEL 12", hero: "Same architecture.\nTwo scales." },
+  { id: "r2-end", kind: "outro", sec: 23, phase: "CLOSE" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -155,8 +157,9 @@ export const REEL3: Beat[] = [
   { id: "r3-editorial", kind: "editorial", sec: 9, phase: "CLOSE", clip: 12,
     hero: "The link, not the source.",
     sub: "Between the console you have and the system you need." },
-  { id: "r3-brand", kind: "brandbeat", sec: 11, phase: "CLOSE" },
-  { id: "r3-outro", kind: "outro", sec: 23, phase: "CLOSE" },
+  { id: "r3-close", kind: "statement", sec: 11, phase: "CLOSE",
+    label: "TASCAM STUDIO BRIDGE", hero: "The link.\nNot the source." },
+  { id: "r3-end", kind: "outro", sec: 23, phase: "CLOSE" },
 ];
 
 export const REELS = { reel1: REEL1, reel2: REEL2, reel3: REEL3 } as const;

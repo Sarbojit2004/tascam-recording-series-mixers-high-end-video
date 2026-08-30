@@ -5,7 +5,7 @@
  * the two are in sync before this runs.
  */
 import { writeFileSync, mkdirSync } from "node:fs";
-import { BEATS } from "../longform/src/schedule.ts";
+import { PARTS } from "../longform/src/schedule.ts";
 import { REELS } from "../reels/src/schedules.ts";
 import { VO_LONGFORM, VO_REEL1, VO_REEL2, VO_REEL3, wordBudget } from "../shared/vo.ts";
 
@@ -50,8 +50,12 @@ function render(title, subtitle, beats, vo) {
 
 mkdirSync("../docs/voiceover", { recursive: true });
 const files = [
-  ["longform.md", "Voiceover — Long-form (898s, landscape)",
-   "TASCAM Model series · Shivansh Electronics", BEATS, VO_LONGFORM],
+  ["longform-part-1.md", "Voiceover — Long-form Part 1 (300s, landscape)",
+   "TASCAM Model series · Shivansh Electronics", PARTS.part1, VO_LONGFORM],
+  ["longform-part-2.md", "Voiceover — Long-form Part 2 (299s, landscape)",
+   "TASCAM Model series · Shivansh Electronics", PARTS.part2, VO_LONGFORM],
+  ["longform-part-3.md", "Voiceover — Long-form Part 3 (299s, landscape)",
+   "TASCAM Model series · Shivansh Electronics", PARTS.part3, VO_LONGFORM],
   ["reel-1-tri-path-survey.md", "Voiceover — Reel 1: The Tri-Path Survey",
    "178s, portrait", REELS.reel1, VO_REEL1],
   ["reel-2-flagship-and-specialist.md", "Voiceover — Reel 2: The Flagship and the Specialist",

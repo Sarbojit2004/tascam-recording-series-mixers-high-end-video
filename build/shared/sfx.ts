@@ -28,6 +28,6 @@ export const SFX_FOR: Partial<Record<BeatKind, Sfx>> = {
   db25:      { file: "db25-seat.wav",        at: 30, gain: 0.22 },
   timecode:  { file: "transport-engage.wav", at: 24, gain: 0.19 },
   realvideo: { file: "sdxc-seat.wav",        at: 14, gain: 0.14 },
-  brandbeat: { file: "phase-mark.wav",       at: 10, gain: 0.16 },
+  // the end screen gets a single soft mark as the logos seat
   outro:     { file: "phase-mark.wav",       at: 8,  gain: 0.15 },
 };
