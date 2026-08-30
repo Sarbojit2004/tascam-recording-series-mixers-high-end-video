@@ -175,10 +175,9 @@ build/assets/audio/*.wav
 build/assets/clips/
 build/assets/img/
 build/assets/video/
-# Whole renders over GitHub's 100 MB limit ship as keyframe-aligned parts
-# (build/*/out/parts/, regenerate with scripts/split_for_github.sh). The
-# unsplit master stays local.
-build/longform/out/tascam-model-series-longform.mp4
+# The long-form now ships as three real ~5-minute parts, each a composition
+# with its own end screen, each comfortably under GitHub's 100 MB limit — so
+# nothing needs mechanical splitting any more and every deliverable is tracked.
 build/*/out/verify/
 build/*/out/render-*.log
 build/out-remix.log

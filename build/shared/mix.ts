@@ -34,24 +34,36 @@
  * preserves it exactly instead of letting thirteen numbers drift apart.
  */
 
-export type Deliverable = "longform" | "reel1" | "reel2" | "reel3";
+export type Deliverable =
+  | "part1" | "part2" | "part3"
+  | "reel1" | "reel2" | "reel3";
 
 /** The bed gain before calibration — the balance the mix was designed at. */
 const BASE = 0.34;
 
 /**
- * Measured at a uniform +12 dB (x3.98), then trimmed to a common -28 LUFS:
+ * Measured from the rendered files, then trimmed to a common -28 LUFS.
  *
- *   longform  -28.3 LUFS  ->  +0.3 dB
- *   reel1     -22.7 LUFS  ->  -5.3 dB
- *   reel2     -22.8 LUFS  ->  -5.2 dB
- *   reel3     -26.1 LUFS  ->  -1.9 dB
+ * THE LONG-FORM NEEDS THREE FIGURES, NOT ONE. Each part plays a different
+ * window of the same 898-second bed, and the bed is not uniform — it was
+ * composed to develop across the runtime. Part 2 came back 1.3 dB hotter than
+ * Part 1 on the same gain because its stretch of the bed is denser, which is a
+ * difference a viewer moving between parts would hear.
+ *
+ *   part1  -28.4 LUFS  ->  +0.4 dB
+ *   part2  -27.1 LUFS  ->  -0.9 dB
+ *   part3  -28.3 LUFS  ->  +0.3 dB
+ *   reel1  -28.2 LUFS  ->  +0.2 dB
+ *   reel2  -28.2 LUFS  ->  +0.2 dB
+ *   reel3  -28.5 LUFS  ->  +0.5 dB
  */
 export const CALIBRATION: Record<Deliverable, number> = {
-  longform: 4.12,
-  reel1: 2.16,
-  reel2: 2.19,
-  reel3: 3.20,
+  part1: 4.31,
+  part2: 3.72,
+  part3: 4.26,
+  reel1: 2.21,
+  reel2: 2.24,
+  reel3: 3.39,
 };
 
 export const bedGain = (d: Deliverable) => BASE * CALIBRATION[d];

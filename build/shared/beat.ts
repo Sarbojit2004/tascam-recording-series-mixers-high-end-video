@@ -7,7 +7,7 @@ export type BeatKind =
   | "specs" | "compare"
   | "broll" | "realvideo"
   | "tripath" | "db25" | "timecode"
-  | "brandbeat" | "outro";
+  | "outro";
 
 export interface Beat {
   id: string;

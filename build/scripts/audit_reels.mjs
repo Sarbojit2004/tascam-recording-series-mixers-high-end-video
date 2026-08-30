@@ -2,7 +2,7 @@
 import { REELS } from "../reels/src/schedules.ts";
 import { PLANS } from "../reels/src/plans.ts";
 import { totalFrames } from "../shared/beat.ts";
-import { runAudit } from "./audit_brand.mjs";
+import { runContactAudit } from "./audit_contact.mjs";
 import { IMAGES, VIDEOS, CLIP_COUNT } from "../shared/assets.ts";
 import { specValue } from "../shared/spec.ts";
 import { FORBIDDEN } from "../shared/brand.ts";
@@ -41,7 +41,8 @@ for (const [id, beats] of Object.entries(REELS)) {
   }
   for (const w of FORBIDDEN.competitors) if (text.includes(w)) fail(`competitor "${w}"`);
 
-  if (!runAudit(`  ${id} brand`, beats, PLANS[id], total)) ok = false;
+  if (!runContactAudit(`  ${id} contact`, beats, PLANS[id], total)) ok = false;
+  if (beats[beats.length - 1].kind !== "outro") fail("does not end with an end screen");
 }
 
 // The four deliverables must not repeat one another's opening.

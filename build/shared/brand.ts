@@ -23,6 +23,38 @@ export const BRAND = {
   phones: ["+91 98316 62458", "+91 91477 00677", "+91 89818 07755"],
 } as const;
 
+/**
+ * THE FIVE MARKETED CHANNELS.
+ *
+ * The rotation works in CHANNELS, not in individual contact details, because
+ * the three phone numbers are one channel: whenever WhatsApp is marketed, all
+ * three numbers appear together on a single line behind one icon, never one at
+ * a time. Surfacing them singly made the viewer wait through three separate
+ * appearances to learn there were three numbers.
+ */
+export const CHANNELS = ["website", "instagram", "facebook", "youtube", "whatsapp"] as const;
+export type ChannelKey = (typeof CHANNELS)[number];
+
+/** What each channel puts on screen beside its icon. */
+export const CHANNEL_VALUE: Record<ChannelKey, string> = {
+  website: BRAND.website,
+  instagram: BRAND.instagram,
+  facebook: BRAND.facebook,
+  youtube: BRAND.youtube,
+  // all three, together, always — the structure the client specified
+  whatsapp: BRAND.phones.join(", "),
+};
+
+/**
+ * WhatsApp's three numbers make a strip roughly twice as wide as any other
+ * channel's, which decides both its type size and which slots can hold it.
+ *
+ * It lives here rather than beside the component because the placement planner
+ * needs it too, and the planner is plain TypeScript that the audit runs under
+ * `node --experimental-strip-types` — which cannot load a .tsx module.
+ */
+export const isWide = (c: ChannelKey) => c === "whatsapp";
+
 /** Every contact detail the rotation can surface, so all of it circulates. */
 export const CONTACT = {
   website: BRAND.website,

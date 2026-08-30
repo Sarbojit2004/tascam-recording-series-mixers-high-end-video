@@ -20,16 +20,15 @@
  * photograph. Each gets a faint drop-shadow. A shadow is not a box: no edge, no
  * fill, just the artwork lifted off the paper.
  *
- * MOVEMENT. Section 10.2 requires marks that change position constantly rather
- * than sitting pinned. Placement comes from the audited plan in brandplan.ts,
- * and each appearance slides in from the NEAREST FRAME EDGE and leaves the same
- * way, so a mark reads as arriving into the frame, never materialising in place.
+ * WHERE THEY APPEAR. On end screens, and nowhere else. Marks used to be placed
+ * throughout the running video, where they collided with the pictures and copy
+ * they sat beside and crowded out the contact details a viewer actually needs.
+ * The body now carries contact strips instead (see contact.tsx), and the marks
+ * are reserved for the closing block of every deliverable and every part.
  */
 import React from "react";
 import { Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { SAFE, SPACE } from "./theme.ts";
-import type { Pos } from "./brandplan.ts";
-import { EASE_IN_OUT, EASE_OUT, ramp } from "./anim.ts";
+import { EASE_OUT, ramp } from "./anim.ts";
 
 export type BrandKey = "shivansh" | "tascam";
 
@@ -51,75 +50,13 @@ export const logoSize = (brand: BrandKey, h: number) => ({
 });
 
 /**
- * Resolves a slot to a top-left coordinate plus an entrance offset.
+ * A mark laid out by the surrounding copy.
  *
- * Landscape insets sit well inboard of the SPACE floor; portrait insets respect
- * the caption-safe band, so a mark never lands under platform UI.
+ * This is now the ONLY way a logo reaches the screen. The slot-placement
+ * machinery that used to drop marks into the corners of running scenes is gone
+ * with the marks themselves — logos appear on end screens only, where the
+ * layout around them decides where they sit.
  */
-export function logoAnchor(
-  pos: Pos, w: number, h: number, canvasW: number, canvasH: number,
-): { x: number; y: number; dx: number; dy: number } {
-  const portrait = canvasH > canvasW;
-  const mx = portrait ? SAFE.marginX + 12 : SPACE.marginX + 48;
-  const top = portrait ? SAFE.top + 24 : SPACE.marginY + 44;
-  const bottomInset = portrait ? SAFE.bottom + 24 : SPACE.marginY + 44;
-
-  const left = mx;
-  const right = canvasW - mx - w;
-  const cx = Math.round((canvasW - w) / 2);
-  const bottom = canvasH - bottomInset - h;
-  const cy = Math.round((canvasH - h) / 2);
-
-  const map: Record<Pos, { x: number; y: number; dx: number; dy: number }> = {
-    tl: { x: left, y: top, dx: -34, dy: 0 },
-    tc: { x: cx, y: top, dx: 0, dy: -28 },
-    tr: { x: right, y: top, dx: 34, dy: 0 },
-    cl: { x: left, y: cy, dx: -34, dy: 0 },
-    center: { x: cx, y: cy, dx: 0, dy: 20 },
-    cr: { x: right, y: cy, dx: 34, dy: 0 },
-    bl: { x: left, y: bottom, dx: -34, dy: 0 },
-    bc: { x: cx, y: bottom, dx: 0, dy: 28 },
-    br: { x: right, y: bottom, dx: 34, dy: 0 },
-  };
-  return map[pos];
-}
-
-/** One logo appearance. `at`/`dur` are local to the enclosing beat. */
-export const LogoMark: React.FC<{
-  brand: BrandKey; pos: Pos; size?: number;
-  at?: number; dur?: number; inF?: number; outF?: number;
-  x?: number; y?: number; opacity?: number;
-}> = ({ brand, pos, size = 54, at = 0, dur = 120, inF = 20, outF = 18,
-        x, y, opacity = 1 }) => {
-  const f = useCurrentFrame() - at;
-  const { width, height } = useVideoConfig();
-  const { w, h } = logoSize(brand, size);
-  const a = logoAnchor(pos, w, h, width, height);
-
-  const inP = ramp(f, 0, inF, EASE_OUT);
-  const outP = 1 - ramp(f - (dur - outF), 0, outF, EASE_IN_OUT);
-  const p = Math.min(inP, outP);
-  if (p <= 0.002) return null;
-
-  const tx = (1 - inP) * a.dx - (1 - outP) * a.dx * 0.45;
-  const ty = (1 - inP) * a.dy - (1 - outP) * a.dy * 0.45;
-  const s = 0.955 + 0.045 * inP;
-
-  return (
-    <div style={{
-      position: "absolute", left: x ?? a.x, top: y ?? a.y, width: w, height: h,
-      opacity: p * opacity,
-      transform: `translate3d(${tx}px, ${ty}px, 0) scale(${s})`,
-      transformOrigin: "center center",
-    }}>
-      <Img src={staticFile(SRC[brand])}
-           style={{ width: "100%", height: "100%", objectFit: "contain",
-                    display: "block", filter: SHADOW }} />
-    </div>
-  );
-};
-
-/** A bare mark laid out by the surrounding copy, for composed brand beats. */
 export const LogoInline: React.FC<{
   brand: BrandKey; size?: number; delay?: number; style?: React.CSSProperties;
 }> = ({ brand, size = 72, delay = 0, style }) => {

@@ -7,7 +7,7 @@
  * from the script is worse: it reaches the recording session as a surprise,
  * and gets filled with whatever comes to mind on the day.
  */
-import { BEATS } from "../longform/src/schedule.ts";
+import { PARTS } from "../longform/src/schedule.ts";
 import { REELS } from "../reels/src/schedules.ts";
 import { VO_LONGFORM, VO_REEL1, VO_REEL2, VO_REEL3, wordBudget, WPS }
   from "../shared/vo.ts";
@@ -15,7 +15,7 @@ import { VO_LONGFORM, VO_REEL1, VO_REEL2, VO_REEL3, wordBudget, WPS }
 const count = (s) => (s.trim() ? s.trim().split(/\s+/).length : 0);
 let ok = true;
 
-function check(name, beats, vo) {
+function check(name, beats, vo, partial = false) {
   let words = 0, silent = 0, over = 0;
   for (const b of beats) {
     if (!(b.id in vo)) {
@@ -32,10 +32,14 @@ function check(name, beats, vo) {
       ok = false; over++;
     }
   }
-  for (const id of Object.keys(vo)) {
-    if (!beats.some((b) => b.id === id)) {
-      console.error(`  FAIL [${name}] "${id}" is not a beat in this schedule`);
-      ok = false;
+  // A part only carries its own beats, so the "orphan entry" check applies to
+  // whole schedules; for a part it would flag every beat of the other two.
+  if (!partial) {
+    for (const id of Object.keys(vo)) {
+      if (!beats.some((b) => b.id === id)) {
+        console.error(`  FAIL [${name}] "${id}" is not a beat in this schedule`);
+        ok = false;
+      }
     }
   }
   const total = beats.reduce((a, b) => a + b.sec, 0);
@@ -46,7 +50,10 @@ function check(name, beats, vo) {
   );
 }
 
-check("longform", BEATS, VO_LONGFORM);
+// Checked per part, because a part is what gets recorded in one session.
+for (const [k, beats] of Object.entries(PARTS)) {
+  check(`longform ${k}`, beats, VO_LONGFORM, true);
+}
 check("reel1", REELS.reel1, VO_REEL1);
 check("reel2", REELS.reel2, VO_REEL2);
 check("reel3", REELS.reel3, VO_REEL3);

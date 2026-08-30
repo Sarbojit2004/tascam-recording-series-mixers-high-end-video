@@ -33,7 +33,9 @@ remix() { # <project> <composition> <basename>
     | grep -A3 Summary | grep "I:" | sed "s/^/    /"
 }
 
-remix longform LongForm                tascam-model-series-longform
+remix longform LongFormPart1 tascam-model-series-part-1
+remix longform LongFormPart2 tascam-model-series-part-2
+remix longform LongFormPart3 tascam-model-series-part-3
 remix reels    Reel1TriPathSurvey      tascam-reel-1-tri-path-survey
 remix reels    Reel2FlagshipSpecialist tascam-reel-2-flagship-and-specialist
 remix reels    Reel3TransparentBridge  tascam-reel-3-transparent-bridge

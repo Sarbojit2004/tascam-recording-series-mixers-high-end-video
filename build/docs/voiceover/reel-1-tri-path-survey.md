@@ -2,7 +2,7 @@
 
 178s, portrait
 
-**Runtime** 02:58 (178s) · **Word count** 99 · **Average** 33 wpm
+**Runtime** 02:58 (178s) · **Word count** 105 · **Average** 35 wpm
 
 Read at a comfortable 150 wpm. Every line is budgeted to 78% of the time
 its beat occupies, so the picture always has room to breathe around the
@@ -23,8 +23,8 @@ there, and talking over it would be the mistake.
 | 01:45 | 02:00 | `r1-ein` | Input noise is identical across all four — minus one hundred and twenty-eight dBu. |
 | 02:00 | 02:15 | `r1-usb` | What differs is the width of the paths that follow it. |
 | 02:15 | 02:24 | `r1-editorial` | So choose by the destinations, not by the preamp. |
-| 02:24 | 02:35 | `r1-brand` | *(silent — brandbeat)* |
-| 02:35 | 02:58 | `r1-outro` | *(silent — outro)* |
+| 02:24 | 02:35 | `r1-close` | One architecture. Four answers to it. |
+| 02:35 | 02:58 | `r1-end` | *(silent — outro)* |
 
 ## Per-beat budgets
 
@@ -41,5 +41,5 @@ there, and talking over it would be the mistake.
 | `r1-ein` | 15 | 14 | 29 |
 | `r1-usb` | 15 | 11 | 29 |
 | `r1-editorial` | 9 | 9 | 17 |
-| `r1-brand` | 11 | 0 | 21 |
-| `r1-outro` | 23 | 0 | 44 |
+| `r1-close` | 11 | 6 | 21 |
+| `r1-end` | 23 | 0 | 44 |

@@ -34,7 +34,7 @@
  */
 import type { Beat } from "./shared/beat.ts";
 
-export const BEATS: Beat[] = [
+export const PART1: Beat[] = [
   // ---------------------------------------------------------------- OPEN
   { id: "open-cold", kind: "cold", sec: 11, phase: "OPEN",
     hero: "One preamp.\nThree destinations.\nAt once.",
@@ -48,7 +48,7 @@ export const BEATS: Beat[] = [
       "That single amplified signal reaches three destinations simultaneously.",
       "No re-amplification. No second conversion. No Y-cable.",
     ] },
-  { id: "open-sweep", kind: "sweep", sec: 10, phase: "OPEN",
+  { id: "open-sweep", kind: "sweep", sec: 9, phase: "OPEN",
     images: ["model-2400-1"], unit: "model2400",
     label: "THE RANGE", hero: "Five units. One architecture." },
 
@@ -80,7 +80,7 @@ export const BEATS: Beat[] = [
       "The preamp is therefore not what separates them.",
       "What separates them is how many paths that preamp can feed, and how wide.",
     ] },
-  { id: "pre-montage", kind: "montage", sec: 11, phase: "PREAMP",
+  { id: "pre-montage", kind: "montage", sec: 9, phase: "PREAMP",
     label: "THE INPUT STAGE", hero: "One stage, five chassis.",
     images: ["model-12-5", "model-16-4", "model-24-5"] },
 
@@ -133,13 +133,24 @@ export const BEATS: Beat[] = [
     specKeys: ["DAW Control", "Fader Travel"] },
   { id: "m12-timecode", kind: "timecode", sec: 16, phase: "MODEL 12", unit: "model12",
     label: "MIDI TIMECODE", hero: "It can follow, or be followed." },
-  { id: "m12-video", kind: "realvideo", sec: 16, phase: "MODEL 12", video: "model-12-video",
+  { id: "m12-video", kind: "realvideo", sec: 15, phase: "MODEL 12", video: "model-12-video",
     label: "MODEL 12", hero: "In use." },
+  { id: "part1-end", kind: "outro", sec: 24, phase: "CLOSE" },
+];
+
+/**
+ * PART 2 — the two analog-forward consoles, and the first half of the flagship.
+ *
+ * It opens on the Model 12's specification card rather than on a title, because
+ * a viewer arriving here has just been told what the tri-path is; what they need
+ * next is what it costs in channels and chassis, unit by unit.
+ */
+export const PART2: Beat[] = [
   { id: "m12-specs", kind: "specs", sec: 14, phase: "MODEL 12", unit: "model12",
     images: ["model-12-14"],
     specKeys: ["Total Harmonic Distortion (THD+N)", "Frequency Response",
                "MIDI", "Power Consumption", "Weight"] },
-  { id: "m12-montage", kind: "montage", sec: 11, phase: "MODEL 12",
+  { id: "m12-montage", kind: "montage", sec: 9, phase: "MODEL 12",
     label: "MODEL 12", hero: "Every surface, working.",
     images: ["model-12-16", "model-12-18", "model-12-20"] },
   { id: "m12-broll", kind: "broll", sec: 9, phase: "MODEL 12", clip: 5, clipFrom: 0.3,
@@ -176,11 +187,11 @@ export const BEATS: Beat[] = [
     images: ["model-16-9"],
     specKeys: ["Equivalent Input Noise (EIN)", "Frequency Response",
                "DAW Control", "MIDI", "Weight"] },
-  { id: "m16-montage", kind: "montage", sec: 11, phase: "MODEL 16",
+  { id: "m16-montage", kind: "montage", sec: 9, phase: "MODEL 16",
     label: "MODEL 16", hero: "Built to be reached across.",
     images: ["model-16-11", "model-16-13", "model-16-15"] },
 
-  { id: "m16-rear", kind: "montage", sec: 11, phase: "MODEL 16",
+  { id: "m16-rear", kind: "montage", sec: 9, phase: "MODEL 16",
     label: "REAR PANEL", hero: "Where the three paths leave.",
     images: ["model-16-2", "model-16-5", "model-16-8"] },
 
@@ -201,9 +212,6 @@ export const BEATS: Beat[] = [
     specKeys: ["Input Channels"] },
   { id: "m24-video", kind: "realvideo", sec: 15, phase: "MODEL 24", video: "model-24-video",
     label: "MODEL 24", hero: "In use." },
-  { id: "m24-case", kind: "montage", sec: 12, phase: "MODEL 24",
-    label: "IN THE ROOM", hero: "Where a desk this size lands.",
-    images: ["model-24-case-study-1", "model-24-case-study-2", "model-24-case-study-3"] },
   { id: "m24-specs", kind: "specs", sec: 14, phase: "MODEL 24", unit: "model24",
     images: ["model-24-9"],
     specKeys: ["USB Audio Interface", "Total Harmonic Distortion (THD+N)",
@@ -218,7 +226,7 @@ export const BEATS: Beat[] = [
     specKeys: ["Multitrack SD Recorder", "DAW Control"] },
 
   // ---------------------------------------------------------- MODEL 2400
-  { id: "m2400-editorial", kind: "editorial", sec: 9, phase: "MODEL 2400", clip: 9,
+  { id: "m2400-editorial", kind: "editorial", sec: 12, phase: "MODEL 2400", clip: 9,
     hero: "Then everything at once.",
     sub: "The flagship keeps every path at full width — and adds the control surface back." },
   { id: "m2400-hero", kind: "hero", sec: 15, phase: "MODEL 2400", unit: "model2400",
@@ -229,6 +237,17 @@ export const BEATS: Beat[] = [
     images: ["model-2400-4"], label: "THE FLAGSHIP", hero: "Nothing traded away.",
     sub: "The Model 24's width, with the Model 12's control surface.",
     specKeys: ["Fader Travel", "Total Harmonic Distortion (THD+N)"] },
+  { id: "part2-end", kind: "outro", sec: 24, phase: "CLOSE" },
+];
+
+/**
+ * PART 3 — the flagship at full width, the counter-example, and the resolution.
+ *
+ * The Studio Bridge is deliberately here rather than earlier: a range argument
+ * that never meets the unit outside it is a slogan, and the part that closes the
+ * series is the right place to test the claim the first two parts built.
+ */
+export const PART3: Beat[] = [
   { id: "m2400-vs", kind: "compare", sec: 15, phase: "MODEL 2400",
     label: "MODEL 24 AND MODEL 2400", hero: "Same width. Different intent.",
     units: ["model24", "model2400"], specKeys: ["Power Consumption"] },
@@ -240,7 +259,7 @@ export const BEATS: Beat[] = [
     images: ["model-2400-9"],
     specKeys: ["Equivalent Input Noise (EIN)", "Frequency Response", "MIDI",
                "Power Consumption", "Dimensions", "Weight"] },
-  { id: "m2400-montage", kind: "montage", sec: 12, phase: "MODEL 2400",
+  { id: "m2400-montage", kind: "montage", sec: 10, phase: "MODEL 2400",
     label: "MODEL 2400", hero: "The full surface.",
     images: ["model-2400-11", "model-2400-13", "model-2400-15"] },
   { id: "m2400-broll", kind: "broll", sec: 9, phase: "MODEL 2400", clip: 10, clipFrom: 0.4,
@@ -248,7 +267,7 @@ export const BEATS: Beat[] = [
 
   { id: "m2400-timecode", kind: "timecode", sec: 16, phase: "MODEL 2400", unit: "model2400",
     label: "MIDI TIMECODE", hero: "Locked to the rest of the room." },
-  { id: "m2400-case", kind: "macro", sec: 12, phase: "MODEL 2400", unit: "model2400",
+  { id: "m2400-case", kind: "macro", sec: 10, phase: "MODEL 2400", unit: "model2400",
     images: ["model-24-case-study-4"], label: "IN THE ROOM",
     hero: "Where the flagship goes.",
     sub: "A desk that has to be the whole signal path.",
@@ -279,7 +298,7 @@ export const BEATS: Beat[] = [
     images: ["studio-bridge-13"],
     specKeys: ["Multitrack SD Recorder", "USB Audio Interface", "DAW Control",
                "MIDI", "Impedance", "Weight"] },
-  { id: "sb-montage", kind: "montage", sec: 12, phase: "BRIDGE",
+  { id: "sb-montage", kind: "montage", sec: 10, phase: "BRIDGE",
     label: "STUDIO BRIDGE", hero: "Connector-dense, by design.",
     images: ["studio-bridge-16", "studio-bridge-18", "studio-bridge-20"] },
   { id: "sb-broll", kind: "broll", sec: 9, phase: "BRIDGE", clip: 12, clipFrom: 0.5,
@@ -309,10 +328,15 @@ export const BEATS: Beat[] = [
       "Need faders and tracks without a control surface: Model 16, or Model 24 for width.",
       "Need all of it at once: Model 2400. Need none of the preamps: Studio Bridge.",
     ] },
-  { id: "close-brand", kind: "brandbeat", sec: 12, phase: "CLOSE" },
-  { id: "close-broll2", kind: "broll", sec: 9, phase: "CLOSE", clip: 15, clipFrom: 0.5,
-    label: "THE RANGE", hero: "Five units. One architecture." },
   { id: "close-broll", kind: "broll", sec: 9, phase: "CLOSE", clip: 13, clipFrom: 0.4,
     label: "SHIVANSH ELECTRONICS", hero: "Specified, supplied and supported in Kolkata." },
-  { id: "close-outro", kind: "outro", sec: 26, phase: "CLOSE" },
+  { id: "part3-end", kind: "outro", sec: 24, phase: "CLOSE" },
 ];
+
+/**
+ * The three parts as one list, for the audits and the voiceover export — which
+ * both need to reason about the whole argument, not one part of it.
+ */
+export const PARTS = { part1: PART1, part2: PART2, part3: PART3 } as const;
+export type PartId = keyof typeof PARTS;
+export const BEATS: Beat[] = [...PART1, ...PART2, ...PART3];
