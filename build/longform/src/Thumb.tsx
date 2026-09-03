@@ -2,6 +2,26 @@ import React from "react";
 import { Thumbnail } from "./shared/thumbnail.tsx";
 
 /**
+ * THE MASTER POSTER — for the three parts joined back into one film.
+ *
+ * It has to do a different job from the part posters sitting beside it. A part
+ * poster says which part this is; the master has to say "this is all of it", so
+ * that someone choosing between the four uploads can tell at a glance which one
+ * is the whole thing. Hence a claim about the RANGE rather than the thesis —
+ * the thesis headline belongs to Part 1, and repeating it here would make the
+ * master read as a duplicate of Part 1 in a channel listing.
+ */
+export const MasterThumb: React.FC = () => (
+  <Thumbnail
+    portrait={false}
+    kicker="TASCAM MODEL SERIES · THE COMPLETE FILM"
+    hero={"FIVE UNITS.\nONE ARCHITECTURE."}
+    note="One preamp, three destinations — across Model 12, 16, 24, 2400 and the Studio Bridge."
+    image="model-2400"
+  />
+);
+
+/**
  * A poster per part.
  *
  * Each states what ITS part argues rather than repeating the series title, so

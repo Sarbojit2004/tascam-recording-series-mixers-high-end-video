@@ -1,0 +1,3 @@
+file 'tascam-model-series-part-1.mp4'
+file 'tascam-model-series-part-2.mp4'
+file 'tascam-model-series-part-3.mp4'

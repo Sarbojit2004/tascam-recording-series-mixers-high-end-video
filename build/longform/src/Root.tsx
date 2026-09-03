@@ -5,7 +5,7 @@ import { totalFrames } from "./shared/beat.ts";
 import { PARTS, type PartId } from "./schedule.ts";
 import { PLANS } from "./plans.ts";
 import { LongFormPart } from "./LongForm.tsx";
-import { Part1Thumb, Part2Thumb, Part3Thumb } from "./Thumb.tsx";
+import { MasterThumb, Part1Thumb, Part2Thumb, Part3Thumb } from "./Thumb.tsx";
 
 const THUMBS = { part1: Part1Thumb, part2: Part2Thumb, part3: Part3Thumb };
 
@@ -37,5 +37,9 @@ export const Root: React.FC = () => (
                    durationInFrames={1} fps={LANDSCAPE.fps}
                    width={LANDSCAPE.width} height={LANDSCAPE.height} />
     ))}
+    {/* the poster for the three parts joined back into one film */}
+    <Composition id="MasterThumb" component={MasterThumb} durationInFrames={1}
+                 fps={LANDSCAPE.fps}
+                 width={LANDSCAPE.width} height={LANDSCAPE.height} />
   </>
 );
