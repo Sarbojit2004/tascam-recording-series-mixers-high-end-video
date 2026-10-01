@@ -8,3 +8,4 @@ out/*-chunks/
 out/*.log
 out/*-video.mp4
 out/*-master.mp4
+node_modules
